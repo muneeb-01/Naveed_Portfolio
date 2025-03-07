@@ -1,0 +1,123 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@font-face {
+  font-family: "Signature";
+  src: url("/Southland\ TTF.ttf");
+}
+@font-face {
+  font-family: "NeueMachina";
+  src: url("/NeueMachina.ttf");
+}
+@font-face {
+  font-family: "Gilgan";
+  src: url("/Gilgan.otf");
+}
+@font-face {
+  font-family: "Crisp";
+  src: url("/crisp.ttf");
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --salmon: rgb(255, 142, 130);
+  --dark: #2b2b2b;
+  --cyan: #80becc;
+  --white: #f5f5f5;
+  --dsalmon: rgb(41, 22, 20);
+  --textdark: #f5f5f5;
+  --dcyan: #1a2629;
+  --textwhite: #000;
+  --clip: 100%;
+  --clipReact: 0%;
+  --clipReactRound: 0px;
+}
+
+.clipRectangle {
+  clip-path: inset(var(--clipReact) round var(--clipReactRound));
+}
+
+.clipContainer {
+  clip-path: circle(var(--clip) at 50% 45%);
+}
+
+.no-select {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Standard syntax */
+}
+
+.fs1 {
+  @apply lg:text-xs md:text-xs sm:text-[14px] text-[10px];
+}
+
+body[theme="dark"] {
+  background-color: var(--dark);
+}
+
+body[theme="dark"] .section {
+  color: var(--textdark);
+}
+
+body[theme="cyan"] {
+  background-color: var(--cyan);
+}
+
+body[theme="cyan"] .section {
+  color: var(--dcyan);
+}
+
+body[theme="salmon"] {
+  background-color: var(--salmon);
+}
+
+body[theme="salmon"] .section {
+  color: var(--white);
+}
+
+body[theme="white"] {
+  background-color: var(--white);
+}
+
+body[theme="white"] .section {
+  color: var(--textwhite);
+}
+
+body[theme="white"] .circle {
+  color: var(--textwhite);
+}
+body:not([theme="white"]) .circle {
+  background-color: var(--textdark);
+}
+
+body[theme="white"] .circle {
+  background-color: var(--textwhite);
+}
+body {
+  transition: background-color ease-in-out 0.5s;
+}
+
+.fs2-horizontal {
+  @apply 2xl:text-[7em] xl:text-[5em] tracking-tight lg:text-3xl md:text-xl sm:text-lg transition-all;
+}
+
+.stack {
+  @apply sticky top-0 flex justify-center items-center w-full h-screen;
+}
+/* Inside your App.css or any other global CSS file */
+
+/* Marquee animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 15s linear infinite;
+}
