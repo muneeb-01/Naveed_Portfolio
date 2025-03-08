@@ -14,11 +14,13 @@ const PORT = process.env.PORT;
 const Origin = process.env.ORIGIN;
 
 app.use(
-  cors({
-    origin: [Origin],
-    methods: ["POST", "PUT", "PATCH", "DELETE", "GET"],
-    credentials: true,
-  })
+  cors(
+  //   {
+  //   origin: [Origin],
+  //   methods: ["POST", "PUT", "PATCH", "DELETE", "GET"],
+  //   credentials: true,
+  // }
+)
 );
 
 app.use(cookieParser());
