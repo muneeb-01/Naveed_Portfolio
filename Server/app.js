@@ -25,11 +25,15 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
-app.use("/uploads/projects", express.static("./public/uploads/projects"));
 
+app.use("/uploads/projects", express.static("./public/uploads/projects"));
 app.use("/api/admin", AdminRoute);
 app.use("/api/Data", DataRoute);
 app.use("/api/projects", ProjectRoute);
+
+app.get("/", (req, res)=>{
+  res.send("Hello World");
+})
 
 const server = app.listen(PORT, () => {
   dbgr(`Listening on http://localhost:${PORT}`);
