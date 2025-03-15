@@ -8,7 +8,7 @@
     ],
     "env": {
       "MONGOOSE_URI": "mongodb+srv://muneerahmed8556:muneer8556@naveedportfoliodb.2b39w.mongodb.net/",
-      "ORIGIN": "http://localhost:5173",
+      "ORIGIN": "https://naveed-portfolio-87.vercel.app/",
       "JWT_KEY": "kgfebwebf11231321wefbewkm"
     },
     "routes": [
