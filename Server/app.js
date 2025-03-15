@@ -12,14 +12,13 @@ const app = express();
 const PORT = process.env.PORT;
 
 const Origin = process.env.ORIGIN;
-
 app.use(
   cors(
-  //   {
-  //   origin: [Origin],
-  //   methods: ["POST", "PUT", "PATCH", "DELETE", "GET"],
-  //   credentials: true,
-  // }
+    {
+    origin: [Origin],
+    methods: ["POST", "PUT", "PATCH", "DELETE", "GET"],
+    credentials: true,
+  }
 )
 );
 
