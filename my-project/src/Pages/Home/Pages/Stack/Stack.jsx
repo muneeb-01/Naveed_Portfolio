@@ -58,7 +58,7 @@ const StackContainer = ({ project }) => {
         className={`w-[87%] h-[82%] relative flex justify-center overflow-hidden items-end rounded-[20px]`}
       >
         <img
-          src={`${HOST+project.imagesUrl[0]}`}
+          src={`${project.imagesUrl[0].fileUrls[0]}`}
           className="absolute -z-10 w-full h-full bg-cover bg-center"
           alt="Image"
         />

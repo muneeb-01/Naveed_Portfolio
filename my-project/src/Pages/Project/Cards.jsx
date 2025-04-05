@@ -11,7 +11,6 @@ gsap.registerPlugin(ScrollTrigger);
 const Card = ({ imgUrl, title, index }) => {
   const cardRef = useRef();
   const navigate = useNavigate();
-
   useEffect(() => {
     const element = cardRef.current;
     const tl = gsap.timeline({
@@ -103,7 +102,7 @@ const CardList = () => {
         <Card
           key={idx}
           index={project._id}
-          imgUrl={HOST+project.imagesUrl[0]}
+          imgUrl={project.imagesUrl[0].fileUrls[0]}
           title={project.title}
         />
       ))}

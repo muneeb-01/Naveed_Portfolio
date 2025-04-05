@@ -228,6 +228,7 @@ const AddProjects = () => {
               name="files[]"
               accept="image/*"
               multiple
+              encType="multipart/form-data"
             />
           </div>
           <button className=" bg-green-500 py-1 rounded-lg">Add Project</button>

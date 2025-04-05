@@ -3,19 +3,33 @@ const ProjectModel = require("../Models/Projectsmodel");
 
 module.exports.AddProjectImages = async (req, res) => {
   try {
+    console.log(req.files);
     const { userId } = req;
-
-    if (!userId) res.status(202).send("Unauthorized user");
-    const files = req?.files;
-    const fileUrl = files.map((file) => {
-      return `/uploads/projects/${file.filename}`;
-    });
-    if (fileUrl.length == 0)
-      return res.status(202).send("Unable to upload files.");
-
-    res.status(200).json(fileUrl);
-  } catch (error) {}
+    
+    if (!userId) {
+      return res.status(401).send("Unauthorized user");  // Changed to 401 for Unauthorized
+    }
+    
+    const files = req.files;
+    
+    if (!files || files.length === 0) {
+      return res.status(400).send("No files uploaded.");  // Changed to 400 for Bad Request
+    }
+    
+    const fileUrls = files.map(file => file.path);  // Generate URLs for each uploaded file
+    
+    if (fileUrls.length === 0) {
+      return res.status(500).send("Unable to upload files.");  // Changed to 500 for server error
+    }
+    
+    res.status(200).json({ message: 'Files uploaded successfully', fileUrls });
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("An error occurred while uploading files.");
+  }
 };
+
 
 module.exports.AddProjectInfo = async (req, res) => {
   try {

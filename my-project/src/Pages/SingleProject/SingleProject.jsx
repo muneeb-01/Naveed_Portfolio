@@ -29,7 +29,6 @@ const SingleProject = () => {
   if(!project){
     return <div>Loading...</div>;
   }
-  console.log(project);
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.7 }}
@@ -37,11 +36,11 @@ const SingleProject = () => {
       transition={{ duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] }}
       className=" w-full"
     >
-      <LandingPage title = {project.title} imageUrl = {project.imagesUrl[0]} />
+      <LandingPage title = {project.title} imageUrl = {project.imagesUrl[0].fileUrls[0]} />
       <TextContainer description = {project.description} type={project.Type} />
-      <PictureContainer1 imageUrl = {project.imagesUrl[1]} />
-      <PictureContainer2 imageUrls = {project.imagesUrl.slice(2,4)} />
-      <PictureContainer1 imageUrl = {project.imagesUrl[4]} />
+      <PictureContainer1 imageUrl = {project.imagesUrl[0].fileUrls[1]} />
+      <PictureContainer2 imageUrls = {project.imagesUrl[0].fileUrls.slice(2,4)} />
+      <PictureContainer1 imageUrl = {project.imagesUrl[0].fileUrls[4]} />
     </motion.div>
   );
 };
@@ -51,7 +50,7 @@ export default SingleProject;
 const LandingPage = ({title,imageUrl}) => {
   return (
     <div className="w-full h-screen relative">
-      <img src={HOST+imageUrl} className="w-full h-screen" alt="" />
+      <img src={imageUrl} className="w-full h-screen" alt="" />
       <div className="w-full h-screen bg-black opacity-15 absolute top-0 left-0"></div>
       <h1 className="text-6xl font-signature font-semibold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white">
         {title}
@@ -74,7 +73,7 @@ const TextContainer = ({description,type}) => {
 const PictureContainer1 = ({imageUrl}) => {
   return (
     <div className="w-full flex justify-center">
-      <img src={HOST+imageUrl} className="w-[70%] h-[70%]" alt="" />
+      <img src={imageUrl} className="w-[70%] h-[70%]" alt="" />
     </div>
   );
 };
@@ -83,10 +82,10 @@ const PictureContainer2 = ({imageUrls}) => {
   return (
     <div className="w-full h-screen grid grid-cols-[65%_35%] text-lg text-slate-600 px-[5rem] py-[5rem]">
       <div>
-        <img src={HOST+imageUrls[0]} className="w-full h-full" alt="" />
+        <img src={imageUrls[0]} className="w-full h-full" alt="" />
       </div>
       <div className="flex justify-end items-center">
-        <img src={HOST+imageUrls[1]} className="w-[60%] h-[30%]" alt="" />
+        <img src={imageUrls[1]} className="w-[60%] h-[30%]" alt="" />
       </div>
     </div>
   );
