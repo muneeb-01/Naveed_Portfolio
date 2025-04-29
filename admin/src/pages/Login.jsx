@@ -20,7 +20,6 @@ export default function Login() {
 
   useEffect(() => {
     if (userInfo) {
-      console.log(userInfo);
       navigate("/dashboard/home");
       console.log(userInfo);
     }
