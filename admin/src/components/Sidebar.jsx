@@ -47,8 +47,7 @@ const Sidebar = () => {
       const responce = await apiClient.get(ADMIN_LOGOUT_ROUTE, {
         withCredentials: true,
       });
-      console.log(responce);
-      if (responce.status === 200) {
+      if (responce.status === 200 || 201) {
         setUserInfo(null);
       }
     } catch (error) {
