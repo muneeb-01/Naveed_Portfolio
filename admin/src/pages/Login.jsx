@@ -14,7 +14,6 @@ export default function Login() {
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -50,7 +49,6 @@ export default function Login() {
       if (response.status === 200) {
         toast.success("Login successful!");
         setUserInfo(response.data.admin);
-        navigate("/dashboard/home");
       } else {
         toast.error("Invalid credentials!");
       }
