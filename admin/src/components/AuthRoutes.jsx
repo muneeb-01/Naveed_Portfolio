@@ -3,12 +3,12 @@ import { Navigate } from "react-router-dom";
 
 export const AuthRoute = ({ children }) => {
   const { userInfo } = useAppStore();
-  const isAuthRoute = !!userInfo;
+  const isAuthRoute = !!userInfo.admin;
   return isAuthRoute ? <Navigate to="/dashboard/home" /> : children;
 };
 
 export const PrivateRoute = ({ children }) => {
   const { userInfo } = useAppStore();
-  const isAuthRoute = !!userInfo;
+  const isAuthRoute = !!userInfo.admin;
   return isAuthRoute ? children : <Navigate to="/signin" />;
 };
