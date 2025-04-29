@@ -21,7 +21,6 @@ export default function Login() {
   useEffect(() => {
     if (userInfo) {
       navigate("/dashboard/home");
-      console.log(userInfo);
     }
   }, [userInfo]);
 
@@ -59,7 +58,7 @@ export default function Login() {
       if (response.status === 200) {
         toast.success("Login successful!");
         console.log(response);
-        setUserInfo(response.data.admin);
+        setUserInfo(response.data.user);
       } else {
         toast.error("Invalid credentials!");
       }
