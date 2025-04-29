@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiEyeOff, FiEye } from "react-icons/fi";
 import { toast } from "react-toastify"; // Importing toastify
 import { apiClient } from "../lib/api-client";
@@ -14,6 +14,7 @@ export default function Login() {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -49,6 +50,7 @@ export default function Login() {
       if (response.status === 200) {
         toast.success("Login successful!");
         setUserInfo(response.data.admin);
+        navigate("/dashboard/home");
       } else {
         toast.error("Invalid credentials!");
       }

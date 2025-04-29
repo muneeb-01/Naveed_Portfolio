@@ -34,7 +34,7 @@ const Project = () => {
     try {
       setIsLoading(true);
       const response = await apiClient.get(
-        `${GET_PROJECTS}?page=${page}&limit=2`,
+        `${GET_PROJECTS}?page=${page}&limit=8`,
         {
           withCredentials: true,
         }
