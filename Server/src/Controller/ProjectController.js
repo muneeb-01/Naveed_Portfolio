@@ -8,7 +8,6 @@ module.exports.AddProjectImages = async (req, res) => {
       return res.status(401).send("Unauthorized user");
     }
     const file = req.file;
-    console.log(req.file);
     if (!file) {
       return res.status(400).send("No file uploaded.");
     }
