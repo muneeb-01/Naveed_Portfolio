@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../Stylesheets/AddProject.css";
@@ -24,6 +24,7 @@ const validateForm = (formData) => {
 };
 
 function Form() {
+  const fileInputRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
@@ -56,6 +57,9 @@ function Form() {
       client: "",
       images: [],
     });
+    if (fileInputRef.current) {
+      fileInputRef.current.value = null; // Clears the file input
+    }
   };
 
   // Handle form submission
@@ -73,28 +77,49 @@ function Form() {
     const uploadedImageUrls = [];
     const failedImages = [];
 
+    class Queue {
+      constructor(items = []) {
+        this.items = items;
+      }
+
+      enqueue(item) {
+        this.items.push(item);
+      }
+
+      dequeue() {
+        return this.items.shift();
+      }
+
+      isEmpty() {
+        return this.items.length === 0;
+      }
+    }
+
+    const imageQueue = new Queue([...formData.images]);
+
     try {
       // Upload images concurrently with a limit (e.g., 3 parallel uploads)
-      const imagePromises = formData.images.map((file) => {
-        const formData = new FormData();
-        formData.append("image", file);
+      while (!imageQueue.isEmpty()) {
+        const file = imageQueue.dequeue();
+        const imageFormData = new FormData();
+        imageFormData.append("image", file);
 
-        return apiClient
-          .post(UPLOAD_PROJECT_IMAGES, formData, { withCredentials: true })
-          .then((response) => {
-            if (response?.data?.fileUrl) {
-              uploadedImageUrls.push(response.data.fileUrl);
-            } else {
-              failedImages.push(file.name);
+        try {
+          const response = await apiClient.post(
+            UPLOAD_PROJECT_IMAGES,
+            imageFormData,
+            {
+              withCredentials: true,
             }
-          })
-          .catch(() => {
-            failedImages.push(file.name);
-          });
-      });
+          );
 
-      // Wait for all uploads to finish
-      await Promise.all(imagePromises);
+          if (response?.data?.fileUrl) {
+            uploadedImageUrls.push(response.data.fileUrl);
+          }
+        } catch (err) {
+          failedImages.push(file.name);
+        }
+      }
 
       if (uploadedImageUrls.length > 0) {
         const projectData = { ...formData, images: uploadedImageUrls };
@@ -169,6 +194,7 @@ function Form() {
           onChange={handleChange}
         />
         <FileInput
+          ref={fileInputRef}
           label="Upload Images"
           name="images"
           onChange={handleChange}
@@ -238,10 +264,11 @@ const TextareaField = ({
   </div>
 );
 
-const FileInput = ({ label, name, onChange }) => (
+const FileInput = ({ label, name, onChange, ref }) => (
   <div className="input-field">
     <label>{label}</label>
     <input
+      ref={ref}
       id="images"
       type="file"
       name={name}
