@@ -12,6 +12,7 @@ const PORT = process.env.PORT;
 
 const Origin1 = process.env.ORIGIN1;
 const Origin2 = process.env.ORIGIN2;
+
 app.use(
   cors({
     origin: [Origin1, Origin2],
