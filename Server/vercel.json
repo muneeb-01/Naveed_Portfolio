@@ -1,21 +1,20 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "app.js", 
-        "use": "@vercel/node"
-      }
-    ],
-    "env": {
-      "MONGOOSE_URI": "mongodb+srv://muneerahmed8556:muneer8556@naveedportfoliodb.2b39w.mongodb.net/",
-      "ORIGIN": "https://naveed-portfolio-87.vercel.app",
-      "JWT_KEY": "kgfebwebf11231321wefbewkm"
-    },
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "/app.js"
-      }
-    ]
-  }
-  
+  "version": 2,
+  "builds": [
+    {
+      "src": "app.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "env": {
+    "MONGOOSE_URI": "mongodb+srv://muneerahmed8556:muneer8556@naveedportfoliodb.2b39w.mongodb.net/",
+    "ORIGIN": "https://naveed-portfolio-87.vercel.app",
+    "JWT_KEY": "kgfebwebf11231321wefbewkm"
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/app.js"
+    }
+  ]
+}
