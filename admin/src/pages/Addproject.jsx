@@ -113,14 +113,16 @@ function Form() {
             }
           );
 
-          if (response?.data?.fileUrl) {
+          if (response?.data?.fileUrl && response?.status === 200) {
             uploadedImageUrls.push(response.data.fileUrl);
+          } else {
+            console.log(response);
           }
         } catch (err) {
           failedImages.push(file.name);
+          toast.error("Error Uploading files");
         }
       }
-
       if (uploadedImageUrls.length > 0) {
         const projectData = { ...formData, images: uploadedImageUrls };
         const uploadProjectInformation = await apiClient.post(
