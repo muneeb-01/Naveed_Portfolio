@@ -71,10 +71,16 @@ module.exports.LoginAdmin = async (req, res) => {
 
     res.cookie(
       "jwt",
-      createToken(user.email, user._id, {
+      createToken(admin.email, admin._id, {
         secure: true,
         sameSite: "none",
-      })
+      }),
+      {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production", // true on Vercel
+        sameSite: "None", // must be 'None' for cross-site
+        maxAge: 1000 * 60 * 60 * 24, // 1 day
+      }
     );
 
     res.status(200).json({ user });
