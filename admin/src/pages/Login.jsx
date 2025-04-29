@@ -15,6 +15,16 @@ export default function Login() {
     password: "",
   });
 
+  const { userInfo } = useAppStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userInfo) {
+      console.log(userInfo);
+      navigate("/dashboard/home");
+    }
+  }, [userInfo]);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -48,6 +58,7 @@ export default function Login() {
       );
       if (response.status === 200) {
         toast.success("Login successful!");
+        console.log(response);
         setUserInfo(response.data.admin);
       } else {
         toast.error("Invalid credentials!");
