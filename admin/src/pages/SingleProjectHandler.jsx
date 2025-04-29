@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import "../css/SingleProjectHandler.css";
 import { useParams } from "react-router-dom";
 import {
   GET_PROJECT_BY_ID,
