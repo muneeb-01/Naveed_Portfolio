@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "../css/Addproject.css";
+import "../Stylesheets/AddProject.css";
 import { apiClient } from "../lib/api-client";
 import {
   UPLOAD_PROJECT_IMAGES,
