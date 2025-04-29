@@ -46,7 +46,7 @@ export default function Signup() {
       );
       if (responce.status === 200) {
         toast.success("Signup successful!");
-        setUserInfo(responce.data.admin);
+        setUserInfo(responce.data.user);
       } else {
         toast.error("Internal Server Error!");
       }
