@@ -1,5 +1,5 @@
-const cloudinary = require('cloudinary').v2;
-require('dotenv').config();  // Load environment variables
+const cloudinary = require("cloudinary").v2;
+require("dotenv").config(); // Load environment variables
 
 // Configure Cloudinary using environment variables
 cloudinary.config({
@@ -8,4 +8,4 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-module.exports = cloudinary;  // Export configured Cloudinary instance
+module.exports = cloudinary; // Export configured Cloudinary instance

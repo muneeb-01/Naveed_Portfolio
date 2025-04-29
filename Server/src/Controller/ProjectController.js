@@ -1,67 +1,125 @@
 const Projectsmodel = require("../Models/Projectsmodel");
 const ProjectModel = require("../Models/Projectsmodel");
-
+const cloudinary = require("../config/cloudinary");
 module.exports.AddProjectImages = async (req, res) => {
   try {
-    console.log(req.files);
     const { userId } = req;
-    
     if (!userId) {
-      return res.status(401).send("Unauthorized user");  // Changed to 401 for Unauthorized
+      return res.status(401).send("Unauthorized user");
     }
-    
-    const files = req.files;
-    
-    if (!files || files.length === 0) {
-      return res.status(400).send("No files uploaded.");  // Changed to 400 for Bad Request
+    const file = req.file;
+    if (!file) {
+      return res.status(400).send("No file uploaded.");
     }
-    
-    const fileUrls = files.map(file => file.path);  // Generate URLs for each uploaded file
-    
-    if (fileUrls.length === 0) {
-      return res.status(500).send("Unable to upload files.");  // Changed to 500 for server error
-    }
-    
-    res.status(200).json({ message: 'Files uploaded successfully', fileUrls });
-    
+    const fileUrl = file.path;
+
+    return res.status(200).json({
+      message: "File uploaded successfully",
+      fileUrl,
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).send("An error occurred while uploading files.");
+    return res.status(500).send("An error occurred while uploading the file.");
   }
 };
-
 
 module.exports.AddProjectInfo = async (req, res) => {
   try {
     const { userId } = req;
-    if (!userId) return res.status(202).send("Unauthenticated User.");
-    const { Type, description, imagesUrl, title, client, category } = req.body;
+    if (!userId) return res.status(401).send("Unauthenticated User."); // better status
 
-    const Project = await ProjectModel.create({
-      Type,
+    const { type, description, images, title, client, category, workType } =
+      req.body;
+
+    if (!images || images.length === 0) {
+      return res.status(400).json({ message: "No images uploaded." });
+    }
+
+    const selectedImages = images.slice(0, 5); // First 5 images
+    const mainImage = images[0]; // First image as main image
+
+    await ProjectModel.create({
+      type,
       description,
-      imagesUrl,
+      images,
+      selectedImages,
+      mainImage,
       title,
       client,
       category,
+      workType,
     });
-    res.status(200).json({ Project });
-  } catch (error) {}
+
+    return res.status(200).json({ message: "Project uploaded successfully" });
+  } catch (error) {
+    console.error("Error during project upload:", error.message);
+
+    // CLEANUP: Delete uploaded images if project creation fails
+    const { images } = req.body;
+    if (images && Array.isArray(images)) {
+      for (const imageUrl of images) {
+        console.log(imageUrl);
+        const publicId = extractPublicId(imageUrl);
+        if (publicId) {
+          try {
+            await cloudinary.uploader.destroy("uploads/" + publicId);
+          } catch (deleteErr) {}
+        }
+      }
+    }
+
+    return res.status(500).json({
+      message: error.message.includes("title")
+        ? "Title must be unique"
+        : "Internal Server Error",
+    });
+  }
 };
 
+function extractPublicId(url) {
+  try {
+    const parts = url.split("/");
+    const fileName = parts.pop(); // dnwjwcb6vu1apkk5ytoi.png
+    const publicId = fileName.split(".")[0]; // remove extension
+    return `${publicId}`; // full public ID with folders
+  } catch {
+    return null;
+  }
+}
 module.exports.GetProjectInfo = async (req, res) => {
   try {
-    const page = parseInt(req.query.page)||1;
+    // Get page and limit from query parameters (defaults to 1 and 5 if not provided)
+    const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;
-    const skip = (page - 1) * 10;
 
+    // Calculate the number of items to skip (pagination logic)
+    const skip = (page - 1) * limit;
+
+    // Fetch projects with pagination
     const projects = await ProjectModel.find().skip(skip).limit(limit);
-    const totalItems = await ProjectModel.countDocuments();
-    
-    const totalPages = Math.ceil(totalItems/limit);
 
-    res.status(200).json({ projects,totalPages,currentPage:page});
-  } catch (error) {}
+    // Count total number of projects
+    const totalItems = await ProjectModel.countDocuments();
+
+    // Calculate total pages
+    const totalPages = Math.ceil(totalItems / limit);
+
+    // Format the projects response
+    const projectResponse = projects.map((project) => ({
+      _id: project._id,
+      title: project.title,
+      mainImage: project.mainImage,
+    }));
+
+    // Send response with projects and pagination info
+    res
+      .status(200)
+      .json({ projects: projectResponse, totalPages, currentPage: page });
+  } catch (error) {
+    // Return an error if something goes wrong
+    console.error("Error fetching project info:", error);
+    res.status(500).json({ error: "Failed to fetch project information" });
+  }
 };
 
 module.exports.GetProjectInfoById = async (req, res) => {
@@ -69,15 +127,45 @@ module.exports.GetProjectInfoById = async (req, res) => {
     const { id } = req.params;
     const project = await ProjectModel.findById(id);
     res.status(200).json({ project });
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};
 
-module.exports.GetlatestProjects = async (req,res)=>{
+module.exports.GetlatestProjects = async (req, res) => {
   try {
-    const projects = await Projectsmodel.find().sort({_id:-1}).limit(5);
-    res.status(200).json({projects});
+    const projects = await Projectsmodel.find().sort({ _id: -1 }).limit(5);
+    res.status(200).json({ projects });
+  } catch (error) {}
+};
+
+module.exports.SaveProjectChanges = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { selectedImages, mainImage } = req.body;
+    const project = await ProjectModel.findById(id);
+
+    project.selectedImages = selectedImages;
+    project.mainImage = mainImage;
+
+    await project.save();
+
+    res.status(200).json({ project });
+  } catch (error) {}
+};
+
+module.exports.GetProjectInfoByIdForUI = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const project = await ProjectModel.findById(id).lean();
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    const { images, ...projectWithoutImages } = project;
+    res.status(200).json({ project: projectWithoutImages });
   } catch (error) {
+    console.error("Error fetching project:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
-}
+};

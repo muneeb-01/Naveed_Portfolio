@@ -1,54 +1,153 @@
 import React, { useEffect, useState } from "react";
-import Cards from "./Cards";
-import Footer from "../Home/Pages/Footer/Footer";
 import { motion } from "framer-motion";
-import {apiClient} from "../../lib/api-client"
-import {GET_PROJECTS} from "../../utils/constants"
-import {useAppStore} from "../../Store"
-import {useParams} from "react-router-dom";
+import { apiClient } from "../../lib/api-client";
+import { GET_PROJECTS } from "../../utils/constants";
+import { useAppStore } from "../../Store";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import Cards from "./Cards"; // Assuming Cards is another component for the project list
+
 const Project = () => {
-  const {projects,setProjects} = useAppStore();
-  document.body.setAttribute("theme", "white");
-  const [totalPages, setTotalPages] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
+  const {
+    projects,
+    setProjects,
+    totalPages,
+    setTotalPages,
+    currentPage,
+    setCurrentPage,
+  } = useAppStore();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    if(projects.length === 0){
-      get_projects();
-    }
-  }, [projects])
+    document.body.setAttribute("theme", "white");
+  }, []);
 
-  const get_projects = async (page=1) => {
+  // Fetch projects when page changes
+  useEffect(() => {
+    if (projects.length === 0) {
+      fetchProjects(currentPage);
+    }
+  }, [projects, currentPage]);
+
+  const fetchProjects = async (page = 1) => {
     try {
-      const response = await apiClient(`${GET_PROJECTS}?page=${page}&limit=${5}`,{withCredentials:true});
-      if(response.status === 200){
-        setProjects(response.data.projects);
-        setTotalPages(response.data.totalPages);
-        setCurrentPage(response.data.currentPage);
+      setIsLoading(true);
+      const response = await apiClient.get(
+        `${GET_PROJECTS}?page=${page}&limit=2`,
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.status === 200) {
+        const { projects, totalPages, currentPage } = response.data;
+        setProjects(projects);
+        setTotalPages(totalPages);
+        setCurrentPage(currentPage);
+        setHasError(false);
       }
     } catch (error) {
-      console.log(error);
+      console.error("Failed to load projects:", error);
+      setHasError(true);
+    } finally {
+      setIsLoading(false);
     }
-  }
+  };
 
-  if(projects.length === 0){
-    return <div>Loading...</div>
+  // Handle page change
+  const handlePageChange = (page) => {
+    if (page > 0 && page <= totalPages) {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth", // This will smoothly scroll to the top
+      });
+
+      setCurrentPage(page);
+      fetchProjects(page);
+    }
+  };
+
+  if (hasError) {
+    return (
+      <div className="text-center py-10 text-red-600">
+        Failed to load projects. Please try again later.
+      </div>
+    );
   }
 
   return (
     <motion.div
       exit={{ opacity: 0, scale: 0 }}
       transition={{ duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] }}
-      className=" text-[#18181B]"
+      className="text-[#18181B] w-full"
     >
-      <div className="w-full ">
-        <h1 className="no-select opacity-95 drop-shadow-xl uppercase w-full text-center font-extrabold tracking-tighter text-[6em] sm:text-[8em] md:text-[12em] xl:text-[14rem] 2xl:text-[22em] ">
+      <header className="w-full pt-10 sm:pt-16">
+        <h1 className="no-select opacity-95 drop-shadow-xl uppercase w-full text-center font-extrabold tracking-tighter text-[3rem] sm:text-[6rem] md:text-[8rem] lg:text-[10rem] xl:text-[12rem] 2xl:text-[16rem] leading-none">
           Projects
         </h1>
-      </div>
-      <Cards />
-      <Footer />
+      </header>
+      {!isLoading && (
+        <section className="w-full px-4 sm:px-8">
+          <Cards />
+        </section>
+      )}
+
+      {/* Pagination */}
+      <section className="pt-20">
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
+      </section>
     </motion.div>
+  );
+};
+
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  if (totalPages <= 1) return null;
+
+  const maxButtons = 5; // Number of visible page buttons
+  const startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+  const endPage = Math.min(totalPages, startPage + maxButtons - 1);
+  const pages = [];
+
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(i);
+  }
+
+  return (
+    <div className="flex justify-center items-center gap-2 sm:gap-4 py-10 text-base select-none">
+      <button
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className="p-2 rounded-full border hover:bg-gray-100 disabled:opacity-40"
+      >
+        <FaChevronLeft />
+      </button>
+
+      {pages.map((number) => (
+        <button
+          key={number}
+          onClick={() => onPageChange(number)}
+          className={`w-10 h-10 rounded-full border text-sm sm:text-base ${
+            number === currentPage ? "bg-black text-white" : "hover:bg-gray-100"
+          }`}
+        >
+          {number}
+        </button>
+      ))}
+
+      <button
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className="p-2 rounded-full border hover:bg-gray-100 disabled:opacity-40"
+      >
+        <FaChevronRight />
+      </button>
+    </div>
   );
 };
 

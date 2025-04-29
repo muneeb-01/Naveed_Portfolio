@@ -14,7 +14,21 @@ const createToken = (email, userId) => {
 
 module.exports.CreateAdmin = async (req, res) => {
   try {
+    const existingUsers = await AdminModel.find({});
+    if (existingUsers.length > 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Admin user already exists" });
+    }
+
     const { username, email, password } = req.body;
+    if (!username || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide username, email, and password",
+      });
+    }
+
     const user = await AdminModel.findOne({ email });
     if (user)
       return res.status(202).send("User with the same email already existed");
@@ -25,6 +39,15 @@ module.exports.CreateAdmin = async (req, res) => {
       password,
       admin: true,
     });
+
+    res.cookie(
+      "jwt",
+      createToken(admin.email, admin._id, {
+        secure: true,
+        sameSite: "none",
+      })
+    );
+
     res.status(200).json({ admin });
   } catch (error) {
     dbgr("Error from (MODELS->AdminRoute) /create");

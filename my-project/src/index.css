@@ -21,7 +21,7 @@
 @tailwind utilities;
 
 :root {
-  --salmon: rgb(255, 142, 130);
+  --salmon: rgb(216, 216, 216);
   --dark: #2b2b2b;
   --cyan: #80becc;
   --white: #f5f5f5;
@@ -74,7 +74,7 @@ body[theme="salmon"] {
 }
 
 body[theme="salmon"] .section {
-  color: var(--white);
+  color: var(--dsalmon);
 }
 
 body[theme="white"] {

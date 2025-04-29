@@ -1,10 +1,11 @@
 import { create } from "zustand";
-import { createAuthSlice } from "./Slice/authSlice";
-import { createParagraphSlice } from "./Slice/paragraphSlice";
-import {createProjectSlice} from "./Slice/projectSlice";
-
+import { createProjectSlice } from "./Slice/projectSlice";
+import {
+  createCurrentPageSlice,
+  createTotalPagesSlice,
+} from "./Slice/createPaginationSlice";
 export const useAppStore = create()((...a) => ({
-  ...createAuthSlice(...a),
-  ...createParagraphSlice(...a),
-  ...createProjectSlice(...a)
+  ...createProjectSlice(...a),
+  ...createCurrentPageSlice(...a),
+  ...createTotalPagesSlice(...a),
 }));

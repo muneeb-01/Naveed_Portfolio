@@ -1,23 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useLayoutEffect, useEffect, useRef, useState } from "react";
 import Hero from "./hero";
 import Marquee from "./marquee";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-
 gsap.registerPlugin(ScrollTrigger);
 
-function home() {
+const Home = () => {
+  const homeRef = useRef(null);
+  const [isDesktop, setIsDesktop] = useState(false);
+
   useEffect(() => {
+    // Set screen size once on mount
+    setIsDesktop(window.innerWidth > 1024);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (!isDesktop || !homeRef.current) return;
+
+    const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: ".home",
+          trigger: homeRef.current,
           start: "top top",
           end: "bottom bottom",
           scrub: 2,
         },
       });
-  
+
       tl.to(
         ".clipContainer",
         {
@@ -49,18 +59,22 @@ function home() {
           },
           "a"
         );
+    }, homeRef);
+
     return () => {
+      ctx.revert();
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
-  }, []);
+  }, [isDesktop]);
+
   return (
-    <div className="relative home h-[250vh]">
+    <div ref={homeRef} className="relative w-full home lg:h-[250vh] h-screen">
       <div className="w-full sticky top-0 left-0">
         <Hero />
-        <Marquee />
+        {isDesktop && <Marquee />}
       </div>
     </div>
   );
-}
+};
 
-export default home;
+export default Home;

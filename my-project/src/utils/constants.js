@@ -15,4 +15,5 @@ export const UPLOAD_PROJECT_IMAGES = `${PROJECT_ROUTE}/AddProjectImages`;
 export const ADD_PROJECT_INFORMATION = `${PROJECT_ROUTE}/AddProjectInfo`;
 export const GET_PROJECTS = `${PROJECT_ROUTE}/GetProjectInfo`;
 export const GET_PROJECT_BY_ID = `${PROJECT_ROUTE}/GetProjectById/`;
-export const GET_LATEST_PROJECTS = `${PROJECT_ROUTE}/GetLatestProjects`
+export const GET_PROJECT_BY_ID_FOR_UI = `${PROJECT_ROUTE}/GetProjectByIdForUI/`;
+export const GET_LATEST_PROJECTS = `${PROJECT_ROUTE}/GetLatestProjects`;

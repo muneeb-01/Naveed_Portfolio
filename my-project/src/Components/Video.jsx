@@ -18,15 +18,17 @@ function Video() {
     }
   };
   useEffect(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
+    if(window.innerWidth > 1024){
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
         trigger: ".videoContainer",
         start: "top -10%",
         end: "bottom bottom",
         scrub: 2,
       },
     });
-
+    
     tl.to(
       ".clipRectangle",
       {
@@ -36,20 +38,21 @@ function Video() {
       },
       "b"
     )
-      .to(
-        ".text-lef",
-        {
-          xPercent: -textPlace(),
-        },
-        "b"
-      )
-      .to(
-        ".text-rigt",
-        {
-          xPercent: textPlace(),
-        },
-        "b"
-      );
+    .to(
+      ".text-lef",
+      {
+        xPercent: -textPlace(),
+      },
+      "b"
+    )
+    .to(
+      ".text-rigt",
+      {
+        xPercent: textPlace(),
+      },
+      "b"
+    );
+  }
 
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
@@ -61,7 +64,7 @@ function Video() {
       autoPlay
       loop
       muted
-      className="clipRectangle h-full w-full object-cover"
+      className="clipRectangle h-[30vh] w-[80%] lg:h-full lg:w-full object-cover"
       src="/Architectural_animation_for_the_office_building_in_Australia_3D_Visualization_for_Fenders_Katsalidis(2160p).webm"
     />
   );

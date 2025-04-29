@@ -1,0 +1,136 @@
+#add-project-heading {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2vh;
+  }
+  
+  /* Tablet */
+  @media (max-width: 768px) {
+    #add-project-heading {
+      font-size: 1.5rem;
+    }
+  }
+  
+  /* Mobile */
+  @media (max-width: 480px) {
+    #add-project-heading {
+      font-size: 1.25rem;
+    }
+  }
+
+  .input-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.input-field label {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.input-field input {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #5d5d5d;
+  border-radius: 4px;
+  outline: none;
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .input-field input {
+    font-size: 0.9rem;
+    padding: 0.45rem 0.8rem;
+    max-width: 100%;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .input-field label {
+    font-size: 0.9rem;
+  }
+  
+  .input-field input {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.7rem;
+  }
+}
+
+ 
+  .input-field p {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  
+  .input-field textarea {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #5d5d5d;
+    border-radius: 4px;
+    outline: none;
+    resize: vertical;
+    width: 100%;
+    max-width: 500px;
+    min-height: 120px;
+  }
+  
+  /* Tablet */
+  @media (max-width: 768px) {
+    .input-field textarea {
+      font-size: 0.9rem;
+      padding: 0.45rem 0.8rem;
+      max-width: 100%;
+    }
+  }
+  
+  /* Mobile */
+  @media (max-width: 480px) {
+    .input-field p {
+      font-size: 0.9rem;
+    }
+  
+    .input-field textarea {
+      font-size: 0.85rem;
+      padding: 0.4rem 0.7rem;
+    }
+  }
+  #Add-project-button {
+    background-color: #3490dc;
+    color: white;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hover effect */
+  #Add-project-button:hover {
+    background-color: #2779bd;
+  }
+  
+  /* Tablet */
+  @media (max-width: 768px) {
+    #Add-project-button {
+      font-size: 0.95rem;
+      padding: 0.65rem 1.2rem;
+    }
+  }
+  
+  /* Mobile */
+  @media (max-width: 480px) {
+    #Add-project-button {
+      font-size: 0.9rem;
+      padding: 0.6rem 1rem;
+      width: 100%; /* Full width button on mobile */
+    }
+  }
+  

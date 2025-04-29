@@ -1,4 +1,4 @@
-import React, { Children, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter,
   Route,
@@ -7,118 +7,72 @@ import {
   useLocation,
 } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import LocomotiveScroll from "locomotive-scroll";
-import LandingPage from "./Pages/Home/LandingPage";
-import Project from "./Pages/Project/Project";
-import SingleProject from "./Pages/SingleProject/SingleProject";
-import FormDisplay from "./Pages/form/FormDisplay";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { apiClient } from "./lib/api-client";
-import { GET_ADMIN_INFO_ROUTE } from "./utils/constants";
-import { useAppStore } from "./Store/index";
-import AdminProfile from "./Pages/Profile/AdminProfile";
+import Lenis from "@studio-freight/lenis";
+import Layout from "./Components/Layout";
 
-const AuthRoute = ({ children }) => {
-  const { userInfo } = useAppStore();
-  const isAuthRoute = !!userInfo;
-  return isAuthRoute ? <Navigate to="/admin/profile" /> : children;
-};
+// Lazy-loaded pages
+import { lazy, Suspense } from "react";
 
-const PrivateRoute = ({ children }) => {
-  const { userInfo } = useAppStore();
-  const isAuthRoute = !!userInfo;
-  return isAuthRoute ? children : <Navigate to="/admin/login" />;
-};
+const LandingPage = lazy(() => import("./Pages/Home/LandingPage"));
+const Project = lazy(() => import("./Pages/Project/Project"));
+const SingleProject = lazy(() => import("./Pages/SingleProject/SingleProject"));
 
 const App = () => {
   const location = useLocation();
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.5,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+      smoothTouch: false,
+    });
+
+    let animationFrame;
+
+    const raf = (time) => {
+      lenis.raf(time);
+      animationFrame = requestAnimationFrame(raf);
+    };
+
+    animationFrame = requestAnimationFrame(raf);
+    lenis.scrollTo(0, { immediate: true }); // Reset scroll on route change
+
+    return () => {
+      cancelAnimationFrame(animationFrame);
+      lenis.destroy();
+    };
+  }, [location.pathname]);
+
   return (
     <div data-scroll-container>
       <AnimatePresence mode="wait" initial={false}>
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/project" element={<Project />} />
-          <Route path="/project/:id" element={<SingleProject />} />
-          <Route
-            path="/admin/login"
-            element={
-              <AuthRoute>
-                <FormDisplay />
-              </AuthRoute>
-            }
-          />
-          <Route
-            path="/admin/profile"
-            element={
-              <PrivateRoute>
-                <AdminProfile />
-              </PrivateRoute>
-            }
-          />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
+        <Suspense
+          fallback={<div className="text-center py-10">Loading...</div>}
+        >
+          <Routes location={location} key={location.pathname}>
+            <Route element={<Layout />}>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/project" element={<Project />} />
+              <Route path="/project/:id" element={<SingleProject />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Route>
+          </Routes>
+        </Suspense>
       </AnimatePresence>
     </div>
   );
 };
 
-const ScrollToTop = ({ scroll }) => {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    if (window.LocomotiveScroll) {
-      window.LocomotiveScroll.scrollTo(0);
-    }
-    return () => {};
-  }, [pathname]);
-
-  return null;
-};
-
-const RootApp = () => {
-  const { userInfo, setUserInfo } = useAppStore();
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    const scroll = new LocomotiveScroll({
-      el: document.querySelector("[data-scroll-container]"),
-      smooth: true,
-    });
-    window.LocomotiveScroll = scroll;
-    const getUserInfo = async () => {
-      try {
-        const responce = await apiClient.get(GET_ADMIN_INFO_ROUTE, {
-          withCredentials: true,
-        });
-        if (responce.status === 200) {
-          setUserInfo(responce.data.admin);
-        } else {
-          setUserInfo(undefined);
-        }
-      } catch (error) {
-        setUserInfo(undefined);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    if (!userInfo) {
-      getUserInfo();
-    } else {
-      setIsLoading(false);
-    }
-    return () => {
-      if (scroll) scroll.destroy();
-    };
-  }, []);
-
-  if (isLoading) return <>Loading...</>;
-  return (
+const RootApp = () => (
+  <>
     <BrowserRouter>
-      <ToastContainer />
-      <ScrollToTop />
       <App />
     </BrowserRouter>
-  );
-};
+    <ToastContainer position="top-right" autoClose={3000} />
+  </>
+);
 
 export default RootApp;
