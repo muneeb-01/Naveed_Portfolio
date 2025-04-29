@@ -45,7 +45,7 @@ const App = () => {
           withCredentials: true,
         });
         if (responce.status === 200) {
-          setUserInfo(responce.data.admin);
+          setUserInfo(responce.data.user);
         } else {
           setUserInfo(undefined);
         }
