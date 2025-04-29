@@ -22,6 +22,7 @@ export default function Login() {
     if (userInfo) {
       console.log(userInfo);
       navigate("/dashboard/home");
+      console.log(userInfo);
     }
   }, [userInfo]);
 
