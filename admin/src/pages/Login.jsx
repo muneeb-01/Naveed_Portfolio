@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { FiEyeOff, FiEye } from "react-icons/fi";
 import { toast } from "react-toastify"; // Importing toastify
 import { apiClient } from "../lib/api-client";
@@ -10,19 +10,11 @@ export default function Login() {
   const { setUserInfo } = useAppStore();
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
-  const { userInfo } = useAppStore();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (userInfo) {
-      navigate("/dashboard/home");
-    }
-  }, [userInfo]);
 
   const handleChange = (e) => {
     setFormData({
@@ -49,6 +41,7 @@ export default function Login() {
     }
 
     try {
+      setLoading(true);
       // API call for login
       const response = await apiClient.post(
         LOGIN_ROUTE,
@@ -57,20 +50,20 @@ export default function Login() {
       );
       if (response.status === 200) {
         toast.success("Login successful!");
-        console.log(response);
         setUserInfo(response.data.user);
       } else {
         toast.error("Invalid credentials!");
       }
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+      // Clear form fields after submission
+      setFormData({
+        email: "",
+        password: "",
+      });
     }
-
-    // Clear form fields after submission
-    setFormData({
-      email: "",
-      password: "",
-    });
   };
 
   return (
@@ -214,6 +207,7 @@ export default function Login() {
 
             <button
               type="submit"
+              disabled={loading}
               style={{
                 backgroundColor: "#007bff",
                 color: "#fff",
@@ -222,13 +216,14 @@ export default function Login() {
                 border: "none",
                 fontSize: "16px",
                 fontWeight: "600",
-                cursor: "pointer",
+                cursor: loading ? "not-allowed" : "pointer",
+                opacity: loading ? 0.6 : 1,
                 transition: "background-color 0.3s",
               }}
               onMouseOver={(e) => (e.target.style.backgroundColor = "#0056b3")}
               onMouseOut={(e) => (e.target.style.backgroundColor = "#007bff")}
             >
-              Sign In
+              {loading ? "Signing in..." : "Sign In"}
             </button>
 
             <div style={{ textAlign: "center", marginTop: "1rem" }}>
