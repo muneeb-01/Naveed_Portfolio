@@ -15,7 +15,7 @@ function SingleProjectHandler() {
   const [savingChanges, setSavingChanges] = useState(false);
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
-
+  const [title, setTitle] = useState("");
   useEffect(() => {
     const fetchProjectData = async () => {
       try {
@@ -27,8 +27,10 @@ function SingleProjectHandler() {
             selectedImages: projectSelectedImages,
             mainImage: projectMainImage,
             images: projectImages,
+            title,
           } = response.data.project;
           setImages(projectImages);
+          setTitle(title);
           setSelectedImages(projectSelectedImages);
           setMainImage(projectMainImage);
         }
@@ -85,7 +87,9 @@ function SingleProjectHandler() {
   return (
     <main>
       <div className="w-full bg-[var(--light)] rounded-xl">
-        <h1 className="image-title text-sm md:text-lg xl:text-2xl">Title</h1>
+        <h3 className="image-title text-center text-sm md:text-lg xl:text-2xl py-3">
+          {title}
+        </h3>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
         {images.map((image, index) => {
