@@ -70,7 +70,7 @@ module.exports.LoginAdmin = async (req, res) => {
 
     res.cookie(
       "jwt",
-      createToken(admin.email, admin._id, {
+      createToken(user.email, user._id, {
         secure: true,
         sameSite: "none",
       }),
