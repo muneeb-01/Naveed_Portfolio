@@ -15,6 +15,8 @@ import { Navigate } from "react-router-dom";
 import { AuthRoute, PrivateRoute } from "./components/AuthRoutes";
 import { apiClient } from "./lib/api-client";
 import { GET_ADMIN_INFO_ROUTE } from "./utils/constants";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
@@ -70,6 +72,7 @@ const App = () => {
   if (isLoading) return <>Loading...</>;
   return (
     <Router>
+      <ToastContainer />
       <Routes>
         {/* Public Routes - No Header/Sidebar */}
         <Route

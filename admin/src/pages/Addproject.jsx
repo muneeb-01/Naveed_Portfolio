@@ -17,6 +17,9 @@ const validateForm = (formData) => {
   if (!formData.workType.trim()) errors.push("Work type is required!");
   if (!formData.category.trim()) errors.push("Project category is required!");
   if (!formData.client.trim()) errors.push("Client name is required!");
+
+  if (formData.description.length <= 20)
+    errors.push("Descrition is too short!");
   if (formData.images.length === 0)
     errors.push("Please upload at least one image!");
 

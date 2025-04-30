@@ -42,14 +42,14 @@ module.exports.CreateAdmin = async (req, res) => {
 
     res.cookie(
       "jwt",
-      createToken(admin.email, admin._id, {
-        secure: true,
-        sameSite: "none",
+      createToken(user.email, user._id, {
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       }),
       {
-        secure: process.env.NODE_ENV === "production", // true on Vercel
-        sameSite: "None", // must be 'None' for cross-site
-        maxAge: 1000 * 60 * 60 * 24, // 1 day
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+        maxAge: 1000 * 60 * 60 * 24,
       }
     );
 
@@ -71,13 +71,13 @@ module.exports.LoginAdmin = async (req, res) => {
     res.cookie(
       "jwt",
       createToken(user.email, user._id, {
-        secure: true,
-        sameSite: "none",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       }),
       {
-        secure: process.env.NODE_ENV === "production", // true on Vercel
-        sameSite: "None", // must be 'None' for cross-site
-        maxAge: 1000 * 60 * 60 * 24, // 1 day
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+        maxAge: 1000 * 60 * 60 * 24,
       }
     );
 

@@ -10,7 +10,7 @@ import { FaSmile } from "react-icons/fa";
 import { useAppStore } from "../Store/index";
 import { apiClient } from "../lib/api-client";
 import { ADMIN_LOGOUT_ROUTE } from "../utils/constants";
-
+import { toast } from "react-toastify";
 const Sidebar = () => {
   const { isSidebarHidden, setUserInfo } = useAppStore();
 
@@ -47,11 +47,11 @@ const Sidebar = () => {
       const responce = await apiClient.get(ADMIN_LOGOUT_ROUTE, {
         withCredentials: true,
       });
-      if (responce.status === 200 || 201) {
+      if (responce.status === 200) {
         setUserInfo(null);
       }
     } catch (error) {
-      toast.error("Somthing went wrong");
+      setUserInfo(null);
     }
   };
 

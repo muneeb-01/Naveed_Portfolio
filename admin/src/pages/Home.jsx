@@ -1,15 +1,12 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
-  BsCloudDownload,
   BsCalendarCheck,
   BsPeopleFill,
   BsCurrencyDollar,
   BsSearch,
   BsFilter,
   BsChevronRight,
-  BsPlus,
-  BsThreeDotsVertical,
 } from "react-icons/bs";
 
 const DashboardMain = () => {

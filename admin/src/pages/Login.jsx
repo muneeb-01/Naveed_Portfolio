@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiEyeOff, FiEye } from "react-icons/fi";
-import { toast } from "react-toastify"; // Importing toastify
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { apiClient } from "../lib/api-client";
 import { LOGIN_ROUTE } from "../utils/constants";
 import { useAppStore } from "../Store/index";

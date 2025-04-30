@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiEyeOff, FiEye } from "react-icons/fi";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SIGNUP_ROUTE } from "../utils/constants";
 import { apiClient } from "../lib/api-client";
 import { useAppStore } from "../Store/index";
+
 export default function Signup() {
   const { setUserInfo } = useAppStore();
   const [showPassword, setShowPassword] = useState(false);
@@ -72,7 +73,6 @@ export default function Signup() {
         padding: "2rem",
       }}
     >
-      <ToastContainer />
       <div
         style={{
           backgroundColor: "#ffffff",

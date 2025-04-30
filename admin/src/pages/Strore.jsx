@@ -4,6 +4,7 @@ import { BsChevronRight } from "react-icons/bs";
 import { useAppStore } from "../Store/index";
 import { apiClient } from "../lib/api-client";
 import { GET_PROJECTS } from "../utils/constants";
+import { toast } from "react-toastify";
 
 const ProjectGrid = () => {
   const location = useLocation();
@@ -28,8 +29,12 @@ const ProjectGrid = () => {
         setProjects(response.data.projects);
         setTotalPages(response.data.totalPages);
         setCurrentPage(response.data.currentPage);
+      } else {
+        toast.error("server did not responce.");
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error("server did not responce.");
+    }
   };
 
   const splitProjects = [[], [], [], []]; // 2D array with 4 sub-arrays

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
 import {
   GET_PROJECT_BY_ID,
   SAVE_SELECTED_IMAGE_CHANGES,
 } from "../utils/constants";
 import { apiClient } from "../lib/api-client";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import { MdOutlineDelete } from "react-icons/md";
 
 function SingleProjectHandler() {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -90,6 +90,9 @@ function SingleProjectHandler() {
         <h3 className="image-title text-center text-sm md:text-lg xl:text-2xl py-3">
           {title}
         </h3>
+        <button className={`bg-red-700 p-2 `}>
+          <MdOutlineDelete />
+        </button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
         {images.map((image, index) => {
@@ -150,7 +153,6 @@ function SingleProjectHandler() {
           {savingChanges ? "Saving..." : "Save Changes"}
         </button>
       </div>
-      <ToastContainer />
       <div className="h-[60px]" />
     </main>
   );
