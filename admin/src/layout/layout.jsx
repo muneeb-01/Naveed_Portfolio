@@ -8,7 +8,7 @@ export const Layout = () => {
       <div className=" overflow-hidden flex justify-center items-center w-full h-screen shadow-lg rounded-lg">
         <div className="flex w-[95vw] h-[92vh] overflow-hidden rounded-xl ">
           <Sidebar />
-          <main className="w-full">
+          <main className="w-[85%] min-[400px]:w-[100%]">
             <Outlet />
           </main>
         </div>

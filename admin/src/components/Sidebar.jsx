@@ -1,23 +1,20 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { MdDashboard } from "react-icons/md";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
 import { IoAnalyticsOutline } from "react-icons/io5";
-import { FaRegMessage } from "react-icons/fa6";
-import { RiTeamLine } from "react-icons/ri";
 import { LuLogOut } from "react-icons/lu";
 import { FaSmile } from "react-icons/fa";
 import { useAppStore } from "../Store/index";
 import { apiClient } from "../lib/api-client";
 import { ADMIN_LOGOUT_ROUTE } from "../utils/constants";
-import { toast } from "react-toastify";
+
 const Sidebar = () => {
   const { isSidebarHidden, setUserInfo } = useAppStore();
 
   const [activeIndex, setActiveIndex] = useState(0);
 
   const menuItems = [
-    { icon: <MdDashboard />, text: "Dashboard", path: "/dashboard/home" },
+    // { icon: <MdDashboard />, text: "Dashboard", path: "/dashboard/home" },
     {
       icon: <AiOutlineAppstoreAdd />,
       text: "My Store",
@@ -28,8 +25,8 @@ const Sidebar = () => {
       text: "Add Project",
       path: "/dashboard/addproject",
     },
-    { icon: <FaRegMessage />, text: "Message", path: "/messages" },
-    { icon: <RiTeamLine />, text: "Team", path: "/team" },
+    // { icon: <FaRegMessage />, text: "Message", path: "/messages" },
+    // { icon: <RiTeamLine />, text: "Team", path: "/team" },
   ];
 
   const settingsItems = [

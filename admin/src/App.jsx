@@ -95,14 +95,14 @@ const App = () => {
               </PrivateRoute>
             }
           >
-            <Route
+            {/* <Route
               path="home"
               element={
                 <PrivateRoute>
                   <Home />
                 </PrivateRoute>
               }
-            />
+            /> */}
             <Route
               path="store"
               element={
@@ -128,7 +128,7 @@ const App = () => {
               }
             />
           </Route>
-          <Route path="*" element={<Navigate to="/dashboard/home" />} />
+          <Route path="*" element={<Navigate to="/dashboard/store" />} />
         </Route>
       </Routes>
     </Router>
