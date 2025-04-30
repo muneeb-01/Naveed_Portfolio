@@ -1,3 +1,4 @@
+const { response } = require("express");
 const Projectsmodel = require("../Models/Projectsmodel");
 const ProjectModel = require("../Models/Projectsmodel");
 const cloudinary = require("../config/cloudinary");
@@ -52,8 +53,6 @@ module.exports.AddProjectInfo = async (req, res) => {
 
     return res.status(200).json({ message: "Project uploaded successfully" });
   } catch (error) {
-    console.error("Error during project upload:", error.message);
-
     // CLEANUP: Delete uploaded images if project creation fails
     const { images } = req.body;
     if (images && Array.isArray(images)) {
@@ -76,16 +75,6 @@ module.exports.AddProjectInfo = async (req, res) => {
   }
 };
 
-function extractPublicId(url) {
-  try {
-    const parts = url.split("/");
-    const fileName = parts.pop(); // dnwjwcb6vu1apkk5ytoi.png
-    const publicId = fileName.split(".")[0]; // remove extension
-    return `${publicId}`; // full public ID with folders
-  } catch {
-    return null;
-  }
-}
 module.exports.GetProjectInfo = async (req, res) => {
   try {
     // Get page and limit from query parameters (defaults to 1 and 5 if not provided)
@@ -96,7 +85,10 @@ module.exports.GetProjectInfo = async (req, res) => {
     const skip = (page - 1) * limit;
 
     // Fetch projects with pagination
-    const projects = await ProjectModel.find().skip(skip).limit(limit);
+    const projects = await ProjectModel.find()
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(limit);
 
     // Count total number of projects
     const totalItems = await ProjectModel.countDocuments();
@@ -169,3 +161,47 @@ module.exports.GetProjectInfoByIdForUI = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+module.exports.DeleteProjectByID = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) return res.status(400).send("Project ID is missing");
+
+    const deletedProject = await ProjectModel.findByIdAndDelete(id);
+
+    if (!deletedProject) {
+      return res.status(404).send("Project not found");
+    }
+
+    if (deletedProject.images && Array.isArray(deletedProject.images)) {
+      for (const imageUrl of deletedProject.images) {
+        const publicId = extractPublicId(imageUrl);
+        if (publicId) {
+          try {
+            await cloudinary.uploader.destroy("uploads/" + publicId);
+          } catch (deleteErr) {
+            return res.status(500).send("Server error while deleting images");
+          }
+        }
+      }
+    }
+
+    res.status(200).json({
+      message: "Project deleted successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error while deleting project");
+  }
+};
+
+function extractPublicId(url) {
+  try {
+    const parts = url.split("/");
+    const fileName = parts.pop(); // dnwjwcb6vu1apkk5ytoi.png
+    const publicId = fileName.split(".")[0]; // remove extension
+    return `${publicId}`; // full public ID with folders
+  } catch {
+    return null;
+  }
+}

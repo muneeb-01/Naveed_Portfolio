@@ -13,3 +13,4 @@ export const ADD_PROJECT_INFORMATION = `${PROJECT_ROUTE}/AddProjectInfo`;
 export const GET_PROJECTS = `${PROJECT_ROUTE}/GetProjectInfo`;
 export const GET_PROJECT_BY_ID = `${PROJECT_ROUTE}/GetProjectById/`;
 export const SAVE_SELECTED_IMAGE_CHANGES = `${PROJECT_ROUTE}/saveSelectedImageChanges/`;
+export const DELETE_PROJECT = `${PROJECT_ROUTE}/deleteProject/`;

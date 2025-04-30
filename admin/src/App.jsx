@@ -12,18 +12,11 @@ import Addproject from "./pages/Addproject";
 import { useAppStore } from "./Store/index";
 import SingleProjectHandler from "./pages/SingleProjectHandler";
 import { Navigate } from "react-router-dom";
-import { AuthRoute, PrivateRoute } from "./components/AuthRoutes";
+import { AuthRoute, PrivateRoute, getCookie } from "./components/AuthRoutes";
 import { apiClient } from "./lib/api-client";
 import { GET_ADMIN_INFO_ROUTE } from "./utils/constants";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-const getCookie = (name) => {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
-  return null; // Return null if the cookie is not found
-};
 
 const App = () => {
   const { setSidebarHidden } = useAppStore();
@@ -59,7 +52,7 @@ const App = () => {
     };
 
     const jwt = getCookie("jwt");
-    if (!userInfo && !!jwt) {
+    if (!userInfo) {
       getUserInfo();
     } else {
       setIsLoading(false);

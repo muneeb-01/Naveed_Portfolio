@@ -9,6 +9,7 @@ const {
   GetlatestProjects,
   SaveProjectChanges,
   GetProjectInfoByIdForUI,
+  DeleteProjectByID,
 } = require("../Controller/ProjectController");
 const { verifytoken } = require("../middlewares/auth-middleware");
 
@@ -31,3 +32,4 @@ ProjectRoute.get("/GetLatestProjects", GetlatestProjects);
 module.exports = ProjectRoute;
 
 ProjectRoute.get("/GetProjectByIdForUI/:id", GetProjectInfoByIdForUI);
+ProjectRoute.delete("/deleteProject/:id", DeleteProjectByID);

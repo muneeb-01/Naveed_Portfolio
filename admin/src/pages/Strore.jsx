@@ -14,10 +14,8 @@ const ProjectGrid = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    if (projects.length === 0) {
-      get_projects();
-    }
-  }, [projects]);
+    get_projects();
+  }, []);
 
   const get_projects = async (page = 1) => {
     try {

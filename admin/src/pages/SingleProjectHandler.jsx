@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   GET_PROJECT_BY_ID,
   SAVE_SELECTED_IMAGE_CHANGES,
+  DELETE_PROJECT,
 } from "../utils/constants";
 import { apiClient } from "../lib/api-client";
-import { toast } from "react-toastify";
 import { MdOutlineDelete } from "react-icons/md";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function SingleProjectHandler() {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -16,6 +18,7 @@ function SingleProjectHandler() {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const [title, setTitle] = useState("");
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchProjectData = async () => {
       try {
@@ -82,17 +85,38 @@ function SingleProjectHandler() {
     }
   };
 
+  const handleDelete = async (e) => {
+    const approved = confirm();
+    if (approved) {
+      try {
+        console.log(id);
+        const response = await apiClient.delete(DELETE_PROJECT + id, {
+          withCredentials: true,
+        });
+        if (response.status === 200) {
+          toast.success("item Deleted Sucessfully");
+          navigate("/dashboard/home");
+        } else {
+          toast.error("Project ID is missing");
+        }
+      } catch (error) {
+        toast.error("Internal server error");
+      }
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
 
   return (
     <main>
-      <div className="w-full bg-[var(--light)] rounded-xl">
-        <h3 className="image-title text-center text-sm md:text-lg xl:text-2xl py-3">
-          {title}
+      <ToastContainer />
+      <div className="w-full bg-[var(--light)] text-[var(--dark)] rounded-xl">
+        <h3 className="image-title flex justify-center items-center gap-4 text-center text-sm md:text-lg xl:text-2xl">
+          {title}{" "}
+          <span onClick={handleDelete} className="bg-red-600 rounded-full">
+            <MdOutlineDelete />
+          </span>
         </h3>
-        <button className={`bg-red-700 p-2 `}>
-          <MdOutlineDelete />
-        </button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
         {images.map((image, index) => {
