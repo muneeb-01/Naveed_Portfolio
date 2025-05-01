@@ -11,7 +11,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Lenis from "@studio-freight/lenis";
 import Layout from "./Components/Layout";
-
 // Lazy-loaded pages
 import { lazy, Suspense } from "react";
 
