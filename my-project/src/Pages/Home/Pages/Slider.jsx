@@ -307,7 +307,7 @@ const Slider = () => {
             </div>
           </div>
 
-          <div className="slide-info shadow-md px-[1.22vh] tracking-tight text-[10px] sm:px-[3vh] lg:py-1 lg:text-[0.8em]">
+          <div className="slide-info px-[1.22vh] tracking-tight text-[10px] sm:px-[3vh] lg:py-1 lg:text-[0.8em]">
             <div className="slide-title-prefix">
               <p>Essence</p>
             </div>
