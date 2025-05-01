@@ -124,7 +124,11 @@ module.exports.GetProjectInfoById = async (req, res) => {
 
 module.exports.GetlatestProjects = async (req, res) => {
   try {
-    const projects = await Projectsmodel.find().sort({ _id: -1 }).limit(5);
+    const projects = await Projectsmodel.find()
+      .sort({ _id: -1 })
+      .limit(5)
+      .select("mainImage title _id");
+
     res.status(200).json({ projects });
   } catch (error) {}
 };
