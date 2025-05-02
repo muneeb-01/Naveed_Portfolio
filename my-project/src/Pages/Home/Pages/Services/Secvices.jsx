@@ -11,10 +11,10 @@ const services = [
 const Services = () => {
   return (
     <section className="w-full min-h-full flex flex-col justify-around items-center xl:gap-14">
-      <h1 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl tracking-tight font-bold font-Gilgan text-center border-b-2 pb-4 max-sm:mb-4 w-full">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl tracking-tight font-bold font-Gilgan text-center  pb-4 max-sm:mb-4 w-full">
         SERVICES
       </h1>
-
+      <hr className="h-3 border-zinc-900 w-full mb-4" />
       <ul className="flex flex-col gap-4 sm:gap-6 xl:gap-10">
         {services.map((service, index) => (
           <li
