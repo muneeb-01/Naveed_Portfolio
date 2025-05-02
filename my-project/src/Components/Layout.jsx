@@ -2,16 +2,28 @@ import React, { useEffect, useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 import Footer from "./Footer";
 import { FaArrowUp } from "react-icons/fa";
+import { useAppStore } from "../Store/index";
+import Reveal from "./Reveal";
 
 const Layout = () => {
   const [showFooter, setShowFooter] = useState(false);
+  const { isRevealLoading, SetIsRevealLoading } = useAppStore();
+  const hasloaded = localStorage.getItem("hasLoaded");
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowFooter(true);
-    }, 1000); // 1 second delay
+    if (hasloaded) {
+      SetIsRevealLoading(false);
+    } else {
+      const timer = setTimeout(() => {
+        setShowFooter(true);
+        SetIsRevealLoading(false);
+        localStorage.setItem("hasLoaded", true);
+      }, 10000);
+    }
 
     return () => clearTimeout(timer); // Cleanup on unmount
   }, []);
+  const localStorageLoading = localStorage.getItem("isLoading");
+  if (!localStorageLoading && isRevealLoading) return <Reveal />;
 
   return (
     <main className="relative">

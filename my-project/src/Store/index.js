@@ -5,10 +5,12 @@ import {
   createTotalPagesSlice,
 } from "./Slice/createPaginationSlice";
 import { createLatestProjectSlice } from "./Slice/createLatestProjectSlice";
+import { createLoadingSlice } from "./Slice/createLoadingSlice";
 
 export const useAppStore = create()((...a) => ({
   ...createProjectSlice(...a),
   ...createCurrentPageSlice(...a),
   ...createTotalPagesSlice(...a),
   ...createLatestProjectSlice(...a),
+  ...createLoadingSlice(...a),
 }));

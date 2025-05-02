@@ -16,6 +16,7 @@ import { lazy, Suspense } from "react";
 import { apiClient } from "./lib/api-client";
 import { GET_LATEST_PROJECTS } from "./utils/constants";
 import { useAppStore } from "./Store/index";
+import Reveal from "./Components/Reveal";
 const LandingPage = lazy(() => import("./Pages/Home/LandingPage"));
 const Project = lazy(() => import("./Pages/Project/Project"));
 const SingleProject = lazy(() => import("./Pages/SingleProject/SingleProject"));

@@ -1,6 +1,19 @@
-import React from "react";
-
+import React, { useEffect } from "react";
+import gsap from "gsap";
 const Hero = React.memo(() => {
+  useEffect(() => {
+    const tl = gsap.timeline({ delay: 0.2 });
+    tl.fromTo(
+      "#Hello",
+      {
+        opacity: 0,
+        stagger: 0.075,
+      },
+      { opacity: 1 }
+    );
+    return () => {};
+  }, []);
+
   return (
     <section
       className="relative z-10 clipContainer bg-dark-gradiant h-screen"
@@ -8,6 +21,7 @@ const Hero = React.memo(() => {
     >
       {/* Main Title */}
       <h1
+        id="Hello"
         className="no-select absolute w-full top-1/3 sm:top-[42%] -translate-y-1/2 text-center font-extrabold text-dark text-8xl sm:text-10xl md:text-9xl xl:text-[22rem] 2xl:text-[28rem]"
         aria-hidden="true"
       >
