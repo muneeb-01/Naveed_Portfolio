@@ -3,7 +3,7 @@ import { FaFacebook } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa6";
 import { FaTwitter } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
 function Footer() {
   return (
     <footer className="mt-20">
@@ -19,15 +19,20 @@ function Footer() {
         </p>
 
         <ul className="mt-12 flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
-          {["Home", "Pricing", "Projects", "Our Journey"].map((item, idx) => {
+          {[
+            { name: "Home", route: "/" },
+            { name: "Prcing", route: "/project" },
+            { name: "Project", route: "/" },
+            { name: "Our journey", route: "/" },
+          ].map((item, idx) => {
             return (
               <li key={idx}>
-                <a
-                  className=" font-Poppins font-medium transition hover:border-b border-white"
-                  href="#"
+                <Link
+                  className="font-Poppins font-medium transition cursor-pointer"
+                  href={item.route}
                 >
-                  {item}
-                </a>
+                  {item.name}
+                </Link>
               </li>
             );
           })}
