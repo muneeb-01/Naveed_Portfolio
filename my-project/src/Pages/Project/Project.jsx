@@ -4,8 +4,7 @@ import { apiClient } from "../../lib/api-client";
 import { GET_PROJECTS } from "../../utils/constants";
 import { useAppStore } from "../../Store";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import Cards from "./Cards"; // Assuming Cards is another component for the project list
-
+import MasonryLayout from "./Cards";
 const Project = () => {
   const {
     projects,
@@ -34,7 +33,7 @@ const Project = () => {
     try {
       setIsLoading(true);
       const response = await apiClient.get(
-        `${GET_PROJECTS}?page=${page}&limit=8`,
+        `${GET_PROJECTS}?page=${page}&limit=30`,
         {
           withCredentials: true,
         }
@@ -83,14 +82,14 @@ const Project = () => {
       transition={{ duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] }}
       className="text-[#18181B] w-full"
     >
-      <header className="w-full pt-10 sm:pt-16">
+      <header className="w-full p-10 sm:p-16">
         <h1 className="no-select opacity-95 drop-shadow-xl uppercase w-full text-center font-extrabold tracking-tighter text-[3rem] sm:text-[6rem] md:text-[8rem] lg:text-[10rem] xl:text-[12rem] 2xl:text-[16rem] leading-none">
           Projects
         </h1>
       </header>
       {!isLoading && (
         <section className="w-full px-4 sm:px-8">
-          <Cards />
+          <MasonryLayout />
         </section>
       )}
 
