@@ -21,8 +21,8 @@ function Footer() {
         <ul className="mt-12 flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
           {[
             { name: "Home", route: "/" },
-            { name: "Prcing", route: "/project" },
-            { name: "Project", route: "/" },
+            { name: "Prcing", route: "/" },
+            { name: "Project", route: "/project" },
             { name: "Our journey", route: "/" },
           ].map((item, idx) => {
             return (
