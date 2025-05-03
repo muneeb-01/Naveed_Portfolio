@@ -58,7 +58,6 @@ const Layout = () => {
 
   if (isRevealLoading) return <Reveal />;
   if (loading || latestProjects.length === 0) return <Loader />;
-  console.log(loading, isRevealLoading);
   return (
     <main className="relative">
       <Link
