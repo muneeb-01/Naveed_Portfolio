@@ -6,7 +6,7 @@ import { FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
 function Footer() {
   return (
-    <footer className="mt-20">
+    <footer className="mt-20  ">
       <hr className="border-zinc-900 h-3" />
       <div className="mx-auto mt-10 lg:mt-8 xl:mt-12  max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex justify-center  font-Gilgan text-[1.7rem]">
@@ -28,8 +28,8 @@ function Footer() {
             return (
               <li key={idx}>
                 <Link
+                  to={item.route}
                   className="font-Poppins font-medium transition cursor-pointer"
-                  href={item.route}
                 >
                   {item.name}
                 </Link>

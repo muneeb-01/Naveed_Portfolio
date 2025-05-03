@@ -13,6 +13,8 @@ import Lenis from "@studio-freight/lenis";
 import Layout from "./Components/Layout";
 // Lazy-loaded pages
 import { lazy, Suspense } from "react";
+import Loader from "./Components/Loader";
+
 const LandingPage = lazy(() => import("./Pages/Home/LandingPage"));
 const Project = lazy(() => import("./Pages/Project/Project"));
 const SingleProject = lazy(() => import("./Pages/SingleProject/SingleProject"));
@@ -47,9 +49,7 @@ const App = () => {
   return (
     <div data-scroll-container>
       <AnimatePresence mode="wait" initial={false}>
-        <Suspense
-          fallback={<div className="text-center py-10">Loading...</div>}
-        >
+        <Suspense fallback={<Loader />}>
           <Routes location={location} key={location.pathname}>
             <Route element={<Layout />}>
               <Route path="/" element={<LandingPage />} />

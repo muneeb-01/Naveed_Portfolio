@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Link } from "react-router-dom";
@@ -17,6 +17,7 @@ const slides = [
 
 const Slider = () => {
   const { latestProjects } = useAppStore();
+  const [newUrl, setNewUrl] = useState(`/project/${latestProjects[0]._id}`);
   useEffect(() => {
     try {
       const LenisInstance = new Lenis();
@@ -143,7 +144,7 @@ const Slider = () => {
         }
         isAnimating = true;
         const newTitle = latestProjects[index].title;
-        const newUrl = `/project${latestProjects[index]._id}`;
+        setNewUrl(`/project/${latestProjects[index]._id}`);
         const outY = direction === "down" ? "-120%" : "120%";
         const inY = direction === "down" ? "120%" : "-120%";
 
@@ -287,23 +288,23 @@ const Slider = () => {
           }
         },
       });
-    } catch (err) {
-      console.log("error from slider");
-    }
+    } catch (err) {}
     return () => {
-      gsap.ticker.remove((time) => {
-        console.log(time);
-      });
+      gsap.ticker.remove((time) => {});
     };
   }, []);
 
   return (
     <>
-      <div className="h-[650vh] relative text-xl font-NeueMachina font-bold">
+      <div className="h-[600vh] relative text-xl font-NeueMachina font-bold">
         <section className="sticky-slider top-[25%] h-[40vh] xl:h-[100vh] sm:h-[50vh] sm:top-[25%] lg:h-[70vh] lg:top-[15%] sticky xl:top-0 left-0 section-image-slides">
           <div className="slide-images">
             <div className="img" id="img-1">
-              <img className="slide-image" src="/images/1b.jpg" alt="" />
+              <img
+                className="slide-image"
+                src={latestProjects[0].mainImage}
+                alt=""
+              />
             </div>
           </div>
 
@@ -315,7 +316,7 @@ const Slider = () => {
               <p id="title-text">Desert Oasis Pool</p>
             </div>
             <div className="slide-link ">
-              <Link to={"/home"}>Explore #8599</Link>
+              <Link to={`${newUrl}`}>Explore #{newUrl.slice(-5)}</Link>
             </div>
           </div>
         </section>

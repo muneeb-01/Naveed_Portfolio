@@ -15,7 +15,7 @@ const Marquee = () => {
       start: "bottom 30%",
       end: "start 50%",
       onEnter: () => {
-        document.body.setAttribute("theme", section.dataset.color);
+        document.body.setAttribute("theme", "white");
       },
       onEnterBack: () => {
         document.body.setAttribute("theme", "dark");

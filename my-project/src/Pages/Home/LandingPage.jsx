@@ -8,10 +8,6 @@ const VideoContainer = lazy(() =>
 );
 
 const LandingPage = () => {
-  useEffect(() => {
-    document.body.setAttribute("theme", "white");
-  }, []);
-
   return (
     <main>
       <section id="home">

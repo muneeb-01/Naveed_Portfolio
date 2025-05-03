@@ -6,60 +6,66 @@ import Reveal from "./Reveal";
 import { apiClient } from "../lib/api-client";
 import { GET_LATEST_PROJECTS } from "../utils/constants";
 import { useAppStore } from "../Store/index";
-
+import { setWithExpiry, getWithExpiry } from "../utils/storage";
+import { toast } from "react-toastify";
+import Loader from "./Loader";
 const Layout = () => {
   const { latestProjects, setLatestProjects } = useAppStore();
   const [loading, setIsloading] = useState(false);
   const [showFooter, setShowFooter] = useState(false);
-  const [isRevealLoading, setIsRevealLoading] = useState(true);
-  const hasloaded = localStorage.getItem("hasLoaded");
+  const hasLoadedBefore = getWithExpiry("hasloaded");
+  const [isRevealLoading, setIsRevealLoading] = useState(!hasLoadedBefore);
+
   useEffect(() => {
-    const getLatestProjects = async () => {
+    let timer;
+    let isMounted = true;
+    const fetchLatestProjects = async () => {
       try {
         setIsloading(true);
         const response = await apiClient.get(GET_LATEST_PROJECTS, {
           withCredentials: true,
         });
-        if (response.status === 200) {
+        if (response.status === 200 && isMounted) {
           setLatestProjects(response.data.projects);
         }
-      } catch (error) {
-        toast.error("Internal Server error!");
+      } catch {
+        toast.error("Internal Server Error!");
       } finally {
-        setIsloading(false);
+        if (isMounted) setIsloading(false);
       }
     };
 
     if (latestProjects.length === 0) {
-      getLatestProjects();
+      fetchLatestProjects();
     }
-    let timer;
-    if (hasloaded) {
-      setIsRevealLoading(false);
+
+    if (hasLoadedBefore) {
+      setShowFooter(true);
     } else {
       timer = setTimeout(() => {
+        if (!isMounted) return;
         setShowFooter(true);
         setIsRevealLoading(false);
-        localStorage.setItem("hasLoaded", true);
+        setWithExpiry("hasloaded", true);
       }, 10000);
     }
 
     return () => {
+      isMounted = false;
       if (timer) clearTimeout(timer);
-    }; // Cleanup on unmount
+    };
   }, []);
-  const localStorageLoading = localStorage.getItem("isLoading");
-  if (!localStorageLoading && isRevealLoading) return <Reveal />;
-  if (loading || latestProjects.length === 0)
-    return <p className="text-center py-2">Loading...</p>;
 
+  if (isRevealLoading) return <Reveal />;
+  if (loading || latestProjects.length === 0) return <Loader />;
+  console.log(loading, isRevealLoading);
   return (
     <main className="relative">
       <Link
         to={"/project"}
-        className="bg-[var(--textdark)] group py-4 px-4 rounded-full bg-blend-difference fixed bottom-10 right-10  z-[100]"
+        className="bg-[var(--textdark)] group py-4 px-4 rounded-full bg-blend-difference fixed bottom-10 right-10 z-[100]"
       >
-        <FaArrowUp className=" group-hover:-rotate-45 transition-all duration-75" />
+        <FaArrowUp className="group-hover:-rotate-45 transition-all duration-75" />
       </Link>
       <Outlet />
       {showFooter && <Footer />}
