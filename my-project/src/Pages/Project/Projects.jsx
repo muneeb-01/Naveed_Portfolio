@@ -1,15 +1,13 @@
 import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { GET_ALL_PROJECTS } from "../../utils/constants";
-import { apiClient } from "../../lib/api-client";
 import { useAppStore } from "../../Store/index";
 import Loader from "../../Components/Loader";
 import { useNavigate, Link } from "react-router-dom";
 gsap.registerPlugin(ScrollTrigger);
 
 const Projects = () => {
-  const { projects, setProjects } = useAppStore();
+  const { projects } = useAppStore();
   const horizontalSection = useRef(null);
   const slider = useRef(null);
 
@@ -33,21 +31,10 @@ const Projects = () => {
       },
     });
 
-    const getAllProjects = async () => {
-      const responce = await apiClient.get(GET_ALL_PROJECTS);
-      if (responce.status == 200) {
-        if (responce?.data?.projects) setProjects(responce.data.projects);
-      }
-    };
-
-    if (projects.length === 0) {
-      getAllProjects();
-    }
-
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
-  }, [projects]);
+  }, []);
 
   if (projects.length === 0) {
     return <Loader />;
