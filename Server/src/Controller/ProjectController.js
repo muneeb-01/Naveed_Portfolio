@@ -126,11 +126,22 @@ module.exports.GetlatestProjects = async (req, res) => {
   try {
     const projects = await Projectsmodel.find()
       .sort({ _id: -1 })
-      .limit(5)
-      .select("mainImage title _id");
+      .limit(3)
+      .select("mainImage title _id selectedImages");
 
-    res.status(200).json({ projects });
-  } catch (error) {}
+    // Then pick the first image manually
+    const processedProjects = projects.map((project) => ({
+      _id: project._id,
+      title: project.title,
+      mainImage: project.mainImage,
+      previewImage: project.selectedImages?.[4] || null,
+    }));
+
+    res.status(200).json({ projects: processedProjects });
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 module.exports.SaveProjectChanges = async (req, res) => {
@@ -209,3 +220,13 @@ function extractPublicId(url) {
     return null;
   }
 }
+
+module.exports.GetAllProjects = async (req, res) => {
+  try {
+    const projects = await Projectsmodel.find()
+      .sort({ _id: -1 })
+      .select("mainImage title _id");
+
+    res.status(200).json({ projects });
+  } catch (error) {}
+};

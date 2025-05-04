@@ -1,8 +1,7 @@
 import React, { lazy, Suspense, useEffect } from "react";
 import Home from "./Pages/Hero/home";
-import Services from "./Pages/Services/Secvices";
-import Slider from "./Pages/Slider";
-
+import FeaturedProject from "./Pages/FeaturedProject";
+import Process from "./Pages/Process";
 const VideoContainer = lazy(() =>
   import("./Pages/VideoContainer/VideoContainer")
 );
@@ -22,12 +21,12 @@ const LandingPage = () => {
         </section>
       </Suspense>
 
-      <section className="mb-[10em]">
-        <Slider />
+      <section id="services">
+        <FeaturedProject />
       </section>
 
       <section id="services">
-        <Services />
+        <Process />
       </section>
     </main>
   );

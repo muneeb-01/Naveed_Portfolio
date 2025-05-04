@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
 import Footer from "./Footer";
 import { FaArrowUp } from "react-icons/fa";
 import Reveal from "./Reveal";
@@ -9,7 +9,10 @@ import { useAppStore } from "../Store/index";
 import { setWithExpiry, getWithExpiry } from "../utils/storage";
 import { toast } from "react-toastify";
 import Loader from "./Loader";
+import Banner from "./Banner";
+
 const Layout = () => {
+  const Location = useLocation();
   const { latestProjects, setLatestProjects } = useAppStore();
   const [loading, setIsloading] = useState(false);
   const [showFooter, setShowFooter] = useState(false);
@@ -61,13 +64,18 @@ const Layout = () => {
   return (
     <main className="relative">
       <Link
-        to={"/project"}
+        to={location.pathname === "/project" ? "/" : "/project"}
         className="bg-[var(--textdark)] group py-4 px-4 rounded-full bg-blend-difference fixed bottom-10 right-10 z-[100]"
       >
         <FaArrowUp className="group-hover:-rotate-45 transition-all duration-75" />
       </Link>
       <Outlet />
-      {showFooter && <Footer />}
+      {showFooter && (
+        <>
+          <Banner />
+          <Footer />
+        </>
+      )}
     </main>
   );
 };

@@ -10,6 +10,7 @@ const {
   SaveProjectChanges,
   GetProjectInfoByIdForUI,
   DeleteProjectByID,
+  GetAllProjects,
 } = require("../Controller/ProjectController");
 const { verifytoken } = require("../middlewares/auth-middleware");
 
@@ -23,13 +24,12 @@ ProjectRoute.post(
   },
   AddProjectImages
 );
-
 ProjectRoute.post("/AddProjectInfo", verifytoken, AddProjectInfo);
 ProjectRoute.get("/GetProjectInfo", GetProjectInfo);
 ProjectRoute.get("/GetProjectById/:id", GetProjectInfoById);
 ProjectRoute.post("/saveSelectedImageChanges/:id", SaveProjectChanges);
 ProjectRoute.get("/GetLatestProjects", GetlatestProjects);
 module.exports = ProjectRoute;
-
 ProjectRoute.get("/GetProjectByIdForUI/:id", GetProjectInfoByIdForUI);
 ProjectRoute.delete("/deleteProject/:id", DeleteProjectByID);
+ProjectRoute.get("/GetAllProjects", GetAllProjects);

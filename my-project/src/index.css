@@ -95,6 +95,23 @@ body:not([theme="white"]) .circle {
 body[theme="white"] .circle {
   background-color: var(--textwhite);
 }
+
+body[theme="white"] .projects-section {
+  background-color: var(--white);
+}
+
+body[theme="dark"] .projects-section {
+  background-color: var(--white);
+}
+
+body[theme="white"] .footer {
+  background-color: var(--white);
+}
+
+body[theme="dark"] .footer {
+  background-color: var(--white);
+}
+
 body {
   transition: background-color ease-in-out 0.5s;
 }

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useParams } from "react-router-dom";
 import { apiClient } from "../../lib/api-client";
 import { GET_PROJECT_BY_ID_FOR_UI } from "../../utils/constants";
-
+import Loader from "../../Components/Loader";
 // The main component
 const SingleProject = () => {
   document.body.setAttribute("theme", "white");
@@ -32,7 +32,7 @@ const SingleProject = () => {
     getProjectById();
   }, [id]);
 
-  if (isLoading) return <div className="text-center py-20">Loading...</div>;
+  if (isLoading) return <Loader />;
   if (error) return <div className="text-center py-20">{error}</div>;
   if (!project)
     return <div className="text-center py-20">Project Not Found</div>;

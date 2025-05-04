@@ -16,7 +16,7 @@ import { lazy, Suspense } from "react";
 import Loader from "./Components/Loader";
 
 const LandingPage = lazy(() => import("./Pages/Home/LandingPage"));
-const Project = lazy(() => import("./Pages/Project/Project"));
+const Projects = lazy(() => import("./Pages/Project/Projects"));
 const SingleProject = lazy(() => import("./Pages/SingleProject/SingleProject"));
 
 const App = () => {
@@ -52,9 +52,9 @@ const App = () => {
         <Suspense fallback={<Loader />}>
           <Routes location={location} key={location.pathname}>
             <Route element={<Layout />}>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/project" element={<Project />} />
+              <Route path="/project" element={<Projects />} />
               <Route path="/project/:id" element={<SingleProject />} />
+              <Route path="/" element={<LandingPage />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Route>
           </Routes>
