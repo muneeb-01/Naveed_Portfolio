@@ -1,43 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useParams } from "react-router-dom";
-import { apiClient } from "../../lib/api-client";
-import { GET_PROJECT_BY_ID_FOR_UI } from "../../utils/constants";
-import Loader from "../../Components/Loader";
-// The main component
+import { useAppStore } from "../../Store/index";
 const SingleProject = () => {
   document.body.setAttribute("theme", "white");
+  const { singleProject } = useAppStore();
 
-  const { id } = useParams();
-  const [project, setProject] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const getProjectById = async () => {
-      try {
-        const response = await apiClient.get(GET_PROJECT_BY_ID_FOR_UI + id, {
-          withCredentials: true,
-        });
-        if (response.status === 200) {
-          setProject(response.data.project);
-        }
-      } catch (error) {
-        setError("Error fetching project");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    getProjectById();
-  }, [id]);
-
-  if (isLoading) return <Loader />;
-  if (error) return <div className="text-center py-20">{error}</div>;
-  if (!project)
+  if (!singleProject)
     return <div className="text-center py-20">Project Not Found</div>;
 
-  const images = project.selectedImages || [];
+  const images = singleProject.selectedImages || [];
 
   return (
     <motion.div
@@ -46,10 +17,16 @@ const SingleProject = () => {
       transition={{ duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] }}
       className="w-full"
     >
-      {project.mainImage && (
-        <LandingPage title={project.title} imageUrl={project.mainImage} />
+      {singleProject.mainImage && (
+        <LandingPage
+          title={singleProject.title}
+          imageUrl={singleProject.mainImage}
+        />
       )}
-      <TextContainer description={project.description} type={project.type} />
+      <TextContainer
+        description={singleProject.description}
+        type={singleProject.type}
+      />
       <ImageGallery images={images.slice(1)} />
     </motion.div>
   );
