@@ -2,7 +2,7 @@ import React from "react";
 
 const Process = () => {
   return (
-    <div className="px-4 py-2 md:px-8">
+    <div className="px-4 font-Gilgan py-2 md:px-8">
       <div className="grid grid-cols-1 lg:grid-cols-[32%_68%] gap-4">
         <div className="flex justify-start ">
           <div className=" w-full lg:w-[80%]">
