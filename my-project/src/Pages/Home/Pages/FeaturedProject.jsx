@@ -41,7 +41,9 @@ const Container = ({ item, index }) => {
           />
           <div className="w-full mt-2">
             <p className="relative text-[0.6rem] md:text-[0.8rem] group uppercase flex justify-between overflow-hidden cursor-pointer tracking-tight font-bold">
-              <span>(01{index + 1}) MYRTYLE POOL HOUSe</span>
+              <span>
+                (01{index + 1}) {item.title}
+              </span>
               <span className="uppercase group-hover:-translate-y-full transition-all ease-in-out duration-100 text-zinc-600 tracking-tight font-bold">
                 2024
               </span>
@@ -61,7 +63,9 @@ const Container = ({ item, index }) => {
           />
           <div className="w-full mt-2">
             <p className="relative text-[0.6rem] md:text-[0.8rem] uppercase flex justify-between overflow-hidden cursor-pointer tracking-tight font-bold">
-              <span>(02{index + 1}) MYRTYLE POOL HOUSe</span>
+              <span>
+                (02{index + 1}) {item.title}
+              </span>
               <span className="uppercase group-hover:-translate-y-full transition-all ease-in-out duration-100 text-zinc-600 tracking-tight font-bold">
                 2024
               </span>
