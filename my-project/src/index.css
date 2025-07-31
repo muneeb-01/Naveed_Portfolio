@@ -238,3 +238,18 @@ h1 span {
 .loading-block {
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
 }
+.group:hover .group\/nested {
+  opacity: 0.1;
+  transition: opacity 0.9s ease-in-out;
+}
+
+.group\/nested:hover {
+  opacity: 1 !important;
+  color: #ffffff !important;
+}
+
+.group\/nested:hover a {
+  transform: translateX(-10px);
+  color: #ffffff !important;
+  transition: transform 0.5s ease-in-out, color 0.5s ease-in-out;
+}

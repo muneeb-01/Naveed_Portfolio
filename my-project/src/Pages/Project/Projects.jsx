@@ -1,30 +1,33 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useMemo, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useAppStore } from "../../Store/index";
 import Loader from "../../Components/Loader";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 gsap.registerPlugin(ScrollTrigger);
 
 const Projects = () => {
   const { projects } = useAppStore();
   const horizontalSection = useRef(null);
   const slider = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const sliderElement = slider.current;
-    const sectionElement = horizontalSection.current;
+    const sliderEl = slider.current;
+    const sectionEl = horizontalSection.current;
+    if (!sliderEl || !sectionEl) return;
 
-    const totalScrollWidth = sliderElement?.scrollWidth + 80;
+    const totalScrollWidth = sliderEl.scrollWidth + 80;
     const viewportWidth = window.innerWidth;
 
-    gsap.to(sliderElement, {
+    const animation = gsap.to(sliderEl, {
       x: -(totalScrollWidth - viewportWidth),
       ease: "power1.inOut",
       scrollTrigger: {
-        trigger: sectionElement,
+        trigger: sectionEl,
         start: "top top",
-        end: () => `+=${totalScrollWidth - viewportWidth} `,
+        end: `+=${totalScrollWidth - viewportWidth}`,
         scrub: true,
         pin: true,
         anticipatePin: 1,
@@ -32,40 +35,42 @@ const Projects = () => {
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      animation.kill(); // Kill only this animation
+      ScrollTrigger.getById(animation.scrollTrigger?.id)?.kill(); // Kill associated ScrollTrigger
     };
-  }, []);
+  }, [projects]); // Re-run if projects change
 
-  if (projects.length === 0) {
-    return <Loader />;
-  }
+  // Memoize project cards to prevent unnecessary re-renders
+  const projectCards = useMemo(
+    () =>
+      projects.map((project) => (
+        <Card
+          key={project._id}
+          mainImage={project.mainImage}
+          id={project._id}
+          title={project.title}
+          navigate={navigate}
+        />
+      )),
+    [projects, navigate]
+  );
+
+  if (!projects.length) return <Loader />;
+
   return (
     <section
       ref={horizontalSection}
-      className="projects-section font-Gilgan w-full h-[100vh] relative overflow-hidden"
+      className="projects-section font-Gilgan w-full h-screen relative overflow-hidden"
     >
       <div className="h-full flex flex-col gap-4 w-full px-8 py-4 sticky top-0 overflow-hidden">
         <header className="flex justify-between items-center">
-          <h1 className=" text-3xl sm:text-5xl font-bold tracking-tighter">
+          <h1 className="text-3xl sm:text-5xl font-bold tracking-tighter">
             Architecture's
           </h1>
-          <Link
-            to={"/"}
-            className="bg-black text-white px-6 py-2 mt-2 rounded-[20px]"
-          >
-            HOME
-          </Link>
         </header>
 
         <div ref={slider} className="slider flex gap-4 h-[70vh] w-max mt-8">
-          {projects.map((project, idx) => (
-            <Card
-              key={idx}
-              mainImage={project.mainImage}
-              id={project._id}
-              title={project.title}
-            />
-          ))}
+          {projectCards}
         </div>
 
         <div className="flex justify-between items-end mt-8">
@@ -75,32 +80,34 @@ const Projects = () => {
           <p className="uppercase text-[0.8rem] md:text-sm lg:text-base font-medium">
             Scroll DOWN to explore
           </p>
-          <div>
-            <p className="uppercase text-[0.8rem] md:text-sm lg:text-base font-medium">
-              ALL
-            </p>
-          </div>
+          <p className="uppercase text-[0.8rem] md:text-sm lg:text-base font-medium">
+            ALL
+          </p>
         </div>
       </div>
     </section>
   );
 };
 
-export default Projects;
-
-const Card = ({ mainImage, id, title }) => {
-  const navigate = useNavigate();
-
-  const handleNavigate = () => {
+// Memoize Card component to prevent re-renders
+const Card = React.memo(({ mainImage, id, title, navigate }) => {
+  const handleNavigate = useCallback(() => {
     navigate(`/project/${id}`);
-  };
+  }, [navigate, id]);
+
   return (
     <div
       onClick={handleNavigate}
-      key={id}
-      className="lg:w-[30vw] md:w-[40vw] sm:w-[50vw] w-[70vw] 2xl:w-[20vw] flex items-end"
+      className="w-[70vw] sm:w-[50vw] md:w-[40vw] lg:w-[30vw] 2xl:w-[20vw] flex items-end cursor-pointer"
     >
-      <img src={mainImage} className="w-full object-cover" alt="" />
+      <img
+        src={mainImage}
+        className="w-full object-cover"
+        alt={title}
+        loading="lazy"
+      />
     </div>
   );
-};
+});
+
+export default Projects;
