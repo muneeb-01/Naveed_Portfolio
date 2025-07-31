@@ -41,7 +41,7 @@ const Layout = () => {
     setProjects,
     setSingleProject,
     prevId,
-    setPrevId,
+    setprevId,
   } = useAppStore();
 
   const [appState, setAppState] = useState({
@@ -90,6 +90,7 @@ const Layout = () => {
         );
         if (status === 200) {
           setSingleProject(data.project);
+          setprevId(projectId);
         }
       } catch {
         toast.error("Internal Server Error!");
@@ -97,7 +98,7 @@ const Layout = () => {
         setAppState((prev) => ({ ...prev, isLoading: false }));
       }
     }, 300),
-    [setSingleProject, setPrevId]
+    [setSingleProject, setprevId]
   );
 
   useEffect(() => {
