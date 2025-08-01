@@ -3,6 +3,7 @@ import gsap from "gsap";
 import CustomEase from "gsap/CustomEase";
 gsap.registerPlugin(CustomEase);
 CustomEase.create("hop", "0.9 ,0 ,0.1 ,1");
+
 const Reveal = () => {
   const hasLoaded = localStorage.getItem("hasLoaded");
   useEffect(() => {

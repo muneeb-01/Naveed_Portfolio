@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useAppStore } from "../../Store/index";
+import Loader from "../../Components/Loader";
 const SingleProject = () => {
   document.body.setAttribute("theme", "white");
   const { singleProject } = useAppStore();
 
-  if (!singleProject)
-    return <div className="text-center py-20">Project Not Found</div>;
+  if (!singleProject) return <Loader />;
 
   const images = singleProject.selectedImages || [];
-
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}

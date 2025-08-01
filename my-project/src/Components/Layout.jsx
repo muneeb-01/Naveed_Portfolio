@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import Loader from "./Loader";
 import Banner from "./Banner";
 import Navbar from "./Navbar";
+import Reveal from "./Reveal";
 
 class ErrorBoundary extends React.Component {
   state = { hasError: false };
@@ -81,7 +82,7 @@ const Layout = () => {
   }, [setProjects]);
 
   const getProjectById = useCallback(
-    debounce(async (projectId) => {
+    async (projectId) => {
       try {
         setAppState((prev) => ({ ...prev, isLoading: true }));
         const { status, data } = await apiClient.get(
@@ -97,7 +98,7 @@ const Layout = () => {
       } finally {
         setAppState((prev) => ({ ...prev, isLoading: false }));
       }
-    }, 300),
+    },
     [setSingleProject, setprevId]
   );
 
@@ -138,26 +139,25 @@ const Layout = () => {
     getProjectById,
   ]);
 
-  if (appState.isLoading || !appState.showContent) return <Loader />;
+  if (!appState.showContent) return <Reveal />;
+  if (appState.isLoading) return <Loader />;
 
   return (
     <main className="relative">
       <Navbar isMenu={isMenu} setIsMenu={setIsMenu} />
-      <AnimatePresence mode="wait">
-        {!isMenu && (
-          <motion.div
-            key={pathname}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <ErrorBoundary>
-              <Outlet />
-            </ErrorBoundary>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {!isMenu && (
+        <motion.div
+          key={pathname}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <ErrorBoundary>
+            <Outlet />
+          </ErrorBoundary>
+        </motion.div>
+      )}
       {appState.showContent && !isMenu && (
         <>
           <Banner />
