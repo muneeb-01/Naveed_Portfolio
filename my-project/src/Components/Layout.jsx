@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Outlet, useLocation, useParams } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { debounce } from "lodash";
+import { motion } from "framer-motion";
 import Footer from "./Footer";
 import { apiClient } from "../lib/api-client";
 import {

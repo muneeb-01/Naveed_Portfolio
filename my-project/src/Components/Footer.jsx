@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <section className="footer font-Gilgan w-full px-8 border-[1px]  border-zinc-800 py-8">
+    <section className="footer font-Gilgan w-full px-8 border-t-[1px]  border-zinc-800 py-8">
       <div className="grid min-h-[93svh] md:grid-cols-3 gap-4 grid-cols-1">
         <div className="w-full md:py-0 py-8  flex justify-between items-start ">
           <div className="w-[80%]">
@@ -19,9 +19,9 @@ const Footer = () => {
             <div className="flex flex-col justify-start font-bold tracking-tighter text-4xl lg:text-5xl">
               {[
                 { name: "Home", route: "/" },
-                { name: "Prcing", route: "/" },
+                // { name: "Prcing", route: "/" },
                 { name: "Project", route: "/project" },
-                { name: "Our journey", route: "/" },
+                // { name: "Our journey", route: "/" },
               ].map((item, idx) => {
                 return (
                   <Link
