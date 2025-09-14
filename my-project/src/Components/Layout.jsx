@@ -138,7 +138,7 @@ const Layout = () => {
     getProjectById,
   ]);
 
-  if (!appState.showContent) return <Reveal />;
+  if (!appState.showContent && appState.isLoading) return <Reveal />;
   if (appState.isLoading) return <Loader />;
 
   return (
