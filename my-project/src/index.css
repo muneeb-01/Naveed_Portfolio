@@ -53,6 +53,36 @@
   @apply lg:text-xs md:text-xs sm:text-[14px] text-[10px];
 }
 
+/* Default fallback */
+::selection {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: inherit;
+}
+
+/* Dark theme selection */
+body[theme="dark"] ::selection {
+  background-color: var(--textdark);
+  color: var(--dark);
+}
+
+/* Cyan theme selection */
+body[theme="cyan"] ::selection {
+  background-color: var(--dcyan);
+  color: var(--cyan);
+}
+
+/* Salmon theme selection */
+body[theme="salmon"] ::selection {
+  background-color: var(--dsalmon);
+  color: var(--salmon);
+}
+
+/* White theme selection */
+body[theme="white"] ::selection {
+  background-color: var(--textwhite);
+  color: var(--white);
+}
+
 body[theme="dark"] {
   background-color: var(--dark);
 }
