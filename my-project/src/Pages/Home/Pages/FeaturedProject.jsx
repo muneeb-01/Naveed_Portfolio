@@ -40,7 +40,7 @@ const Container = ({ item, index }) => {
               src={item.mainImage}
               alt=""
             />
-            <h1 className="group-hover:mix-blend-hard-light group-hover:opacity-100 transition-all opacity-40 font-extrabold absolute top-1/2 left-1/2 font-Gilgan text-4xl mix-blend-exclusion text-nowrap -translate-x-1/2 -translate-y-1/2 text-white z-50">
+            <h1 className="group-hover:mix-blend-hard-light group-hover:opacity-100 transition-all opacity-40 font-extrabold absolute top-1/2 left-1/2 font-Gilgan text-xl lg:text-4xl mix-blend-exclusion text-nowrap -translate-x-1/2 -translate-y-1/2 text-white z-50">
               {item.title}
             </h1>
           </div>
@@ -68,7 +68,7 @@ const Container = ({ item, index }) => {
                 src={item.previewImage}
                 alt=""
               />
-              <h1 className="group-hover:mix-blend-hard-light group-hover:opacity-100 transition-all opacity-40 font-extrabold absolute top-1/2 left-1/2 font-Gilgan text-4xl mix-blend-exclusion text-nowrap -translate-x-1/2 -translate-y-1/2 text-white z-50">
+              <h1 className="group-hover:mix-blend-hard-light group-hover:opacity-100 transition-all opacity-40 font-extrabold absolute top-1/2 left-1/2 font-Gilgan text-xl lg:text-4xl mix-blend-exclusion text-nowrap -translate-x-1/2 -translate-y-1/2 text-white z-50">
                 {item.title}
               </h1>
             </div>
