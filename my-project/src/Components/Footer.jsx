@@ -1,6 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+const socialLinks = [
+  { name: "INSTAGRAM", url: "https://www.instagram.com" },
+  { name: "FACEBOOK", url: "https://www.facebook.com" },
+  { name: "BEHANCE", url: "https://www.behance.net" },
+  { name: "ARTSTATION", url: "https://www.artstation.com" },
+];
+
 const Footer = () => {
   return (
     <section className="footer font-Gilgan w-full px-8 border-t-[1px]  border-zinc-800 py-8">
@@ -39,14 +46,24 @@ const Footer = () => {
                 );
               })}
             </div>
-            <p className="leading-tight block my-8 md:my-0 font-semibold relative  group overflow-hidden cursor-pointer">
-              <span className="block transition-all ease-in-out duration-200 group-hover:-translate-y-full">
-                INSTAGRAM
-              </span>
-              <span className="absolute transition-all ease-in-out duration-200 block top-0 left-0 group-hover:translate-y-0 translate-y-full">
-                INSTAGRAM
-              </span>
-            </p>
+            <div className="w-full flex flex-row flex-wrap gap-5 lg:gap-12 ">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="leading-tight block my-4 md:my-0 font-semibold relative group overflow-hidden cursor-pointer"
+                >
+                  <span className="block transition-all ease-in-out duration-200 group-hover:-translate-y-full">
+                    {link.name}
+                  </span>
+                  <span className="absolute transition-all ease-in-out duration-200 block top-0 left-0 group-hover:translate-y-0 translate-y-full">
+                    {link.name}
+                  </span>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
         <div className=" w-full  md:py-0 py-8 flex justify-between items-start ">

@@ -34,18 +34,23 @@ const Container = ({ item, index }) => {
     <div className="grid pb-[1rem] md:pb-[9rem] gap-4 grid-cols-1 md:grid-cols-2 w-full">
       <div className="">
         <div onClick={handleNavigate} className="group w-[80%] md:w-full">
-          <img
-            className="object-cover group md:w-full "
-            src={item.mainImage}
-            alt=""
-          />
+          <div className="relative">
+            <img
+              className="object-cover group md:w-full "
+              src={item.mainImage}
+              alt=""
+            />
+            <h1 className="group-hover:mix-blend-hard-light group-hover:opacity-100 transition-all opacity-40 font-extrabold absolute top-1/2 left-1/2 font-Gilgan text-4xl mix-blend-exclusion text-nowrap -translate-x-1/2 -translate-y-1/2 text-white z-50">
+              {item.title}
+            </h1>
+          </div>
           <div className="w-full mt-2">
             <p className="relative text-[0.6rem] md:text-[0.8rem] group uppercase flex justify-between overflow-hidden cursor-pointer tracking-tight font-bold">
               <span>
-                (01{index + 1}) {item.title}
+                {item.title}
               </span>
               <span className="uppercase group-hover:-translate-y-full transition-all ease-in-out duration-100 text-zinc-600 tracking-tight font-bold">
-                2024
+                {new Date().getFullYear()}
               </span>
               <span className="uppercase group-hover:translate-y-0 absolute transition-all ease-in-out duration-100 right-0 translate-y-full  tracking-tight font-bold">
                 VIEW PROJECT
@@ -54,28 +59,35 @@ const Container = ({ item, index }) => {
           </div>
         </div>
       </div>
-      <div className=" flex justify-end">
-        <div onClick={handleNavigate} className="group w-[80%] md:w-full">
-          <img
-            className="object-cover group w-full"
-            src={item.previewImage}
-            alt=""
-          />
-          <div className="w-full mt-2">
-            <p className="relative text-[0.6rem] md:text-[0.8rem] uppercase flex justify-between overflow-hidden cursor-pointer tracking-tight font-bold">
-              <span>
-                (02{index + 1}) {item.title}
-              </span>
-              <span className="uppercase group-hover:-translate-y-full transition-all ease-in-out duration-100 text-zinc-600 tracking-tight font-bold">
-                2024
-              </span>
-              <span className="uppercase group-hover:translate-y-0 absolute transition-all ease-in-out duration-100 right-0 translate-y-full  tracking-tight font-bold">
-                VIEW PROJECT
-              </span>
-            </p>
+      {item.previewImage &&
+        <div className=" flex justify-end">
+          <div onClick={handleNavigate} className="group w-[80%] md:w-full">
+            <div className="relative">
+              <img
+                className="object-cover group w-full"
+                src={item.previewImage}
+                alt=""
+              />
+              <h1 className="group-hover:mix-blend-hard-light group-hover:opacity-100 transition-all opacity-40 font-extrabold absolute top-1/2 left-1/2 font-Gilgan text-4xl mix-blend-exclusion text-nowrap -translate-x-1/2 -translate-y-1/2 text-white z-50">
+                {item.title}
+              </h1>
+            </div>
+            <div className="w-full mt-2">
+              <p className="relative text-[0.6rem] md:text-[0.8rem] uppercase flex justify-between overflow-hidden cursor-pointer tracking-tight font-bold">
+                <span>
+                   {item.title}
+                </span>
+                <span className="uppercase group-hover:-translate-y-full transition-all ease-in-out duration-100 text-zinc-600 tracking-tight font-bold">
+                  {new Date().getFullYear()}
+                </span>
+                <span className="uppercase group-hover:translate-y-0 absolute transition-all ease-in-out duration-100 right-0 translate-y-full  tracking-tight font-bold">
+                  VIEW PROJECT
+                </span>
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      }
     </div>
   );
 };

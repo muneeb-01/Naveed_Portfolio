@@ -39,11 +39,11 @@ const Hero = React.memo(() => {
       <div className="absolute text-white font-poppins bottom-[10%] left-[8%]">
         <ul className="list-none">
           <li className="text-sm sm:text-base font-medium">
-            6 Years Of Experience
+            {new Date().getFullYear() - 2018} Years Of Experience
           </li>
         </ul>
         <p className="text-xs sm:text-sm pl-3 sm:pl-5 font-light">
-          2018 - 2024
+          2018 - {new Date().getFullYear()}
         </p>
       </div>
     </section>

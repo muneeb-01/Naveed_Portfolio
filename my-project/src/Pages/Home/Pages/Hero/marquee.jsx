@@ -82,9 +82,9 @@ const Marquee = () => {
       {/* Bottom Tag */}
       <div className="absolute text-sm font-medium font-poppins bottom-[10%] left-[8%]">
         <ul>
-          <li className="text-sm sm:text-base fs1">6 Years Of Experience</li>
+          <li className="text-sm sm:text-base fs1"> {new Date().getFullYear() - 2018} Years Of Experience</li>
         </ul>
-        <p className="text-xs text-yellow-500 pl-5 fs1">2018 - 2024</p>
+        <p className="text-xs text-yellow-500 pl-5 fs1">2018 - {new Date().getFullYear()} </p>
       </div>
     </div>
   );
