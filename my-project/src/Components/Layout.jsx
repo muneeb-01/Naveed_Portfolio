@@ -159,7 +159,7 @@ const Layout = () => {
       )}
       {appState.showContent && !isMenu && (
         <>
-          <Banner />
+          {/* <Banner /> */}
           <Footer />
         </>
       )}
