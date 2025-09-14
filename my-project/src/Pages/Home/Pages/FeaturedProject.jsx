@@ -26,7 +26,7 @@ export default FeaturedProject;
 
 const Container = ({ item, index }) => {
   const navigate = useNavigate();
-
+  console.log(item)
   const handleNavigate = () => {
     navigate(`/project/${item._id}`);
   };

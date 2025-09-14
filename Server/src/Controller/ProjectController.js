@@ -62,7 +62,7 @@ module.exports.AddProjectInfo = async (req, res) => {
         if (publicId) {
           try {
             await cloudinary.uploader.destroy("uploads/" + publicId);
-          } catch (deleteErr) {}
+          } catch (deleteErr) { }
         }
       }
     }
@@ -119,7 +119,7 @@ module.exports.GetProjectInfoById = async (req, res) => {
     const { id } = req.params;
     const project = await ProjectModel.findById(id);
     res.status(200).json({ project });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 module.exports.GetlatestProjects = async (req, res) => {
@@ -129,12 +129,11 @@ module.exports.GetlatestProjects = async (req, res) => {
       .limit(3)
       .select("mainImage title _id selectedImages");
 
-    // Then pick the first image manually
     const processedProjects = projects.map((project) => ({
       _id: project._id,
       title: project.title,
       mainImage: project.mainImage,
-      previewImage: project.selectedImages?.[4] || null,
+      previewImage: project.selectedImages?.[1] || null,
     }));
 
     res.status(200).json({ projects: processedProjects });
@@ -156,7 +155,7 @@ module.exports.SaveProjectChanges = async (req, res) => {
     await project.save();
 
     res.status(200).json({ project });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 module.exports.GetProjectInfoByIdForUI = async (req, res) => {
@@ -228,5 +227,5 @@ module.exports.GetAllProjects = async (req, res) => {
       .select("mainImage title _id");
 
     res.status(200).json({ projects });
-  } catch (error) {}
+  } catch (error) { }
 };
