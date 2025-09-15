@@ -14,12 +14,12 @@ const Card = React.memo(({ imgUrl, title, id }) => {
 
   return (
     <motion.div
-      onClick={handleNavigate}
       className="mb-4 break-inside-avoid cursor-pointer group"
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.3 }}
     >
       <img
+        onClick={handleNavigate}
         src={imgUrl}
         alt={title}
         className="w-full rounded-lg shadow-md"

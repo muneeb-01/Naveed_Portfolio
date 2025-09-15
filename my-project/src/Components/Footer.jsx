@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 const socialLinks = [
@@ -26,9 +25,8 @@ const Footer = () => {
             <div className="flex flex-col justify-start font-bold tracking-tighter text-4xl lg:text-5xl">
               {[
                 { name: "Home", route: "/" },
-                // { name: "Prcing", route: "/" },
                 { name: "Project", route: "/project" },
-                // { name: "Our journey", route: "/" },
+                { name: "Contact", route: "/contact" },
               ].map((item, idx) => {
                 return (
                   <Link

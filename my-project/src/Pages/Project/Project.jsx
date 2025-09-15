@@ -131,7 +131,7 @@ const Project = () => {
       transition={{ duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] }}
       className="text-[#18181B] w-full"
     >
-      <header className="w-full p-10 sm:p-16">
+      <header className="w-full p-16">
         <h1 className="no-select opacity-95 drop-shadow-xl uppercase text-center font-extrabold tracking-tighter text-[clamp(3rem,10vw,16rem)] leading-none">
           Projects
         </h1>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   BrowserRouter,
   Route,
@@ -18,6 +18,7 @@ import Loader from "./Components/Loader";
 const LandingPage = lazy(() => import("./Pages/Home/LandingPage"));
 const Projects = lazy(() => import("./Pages/Project/Projects"));
 const SingleProject = lazy(() => import("./Pages/SingleProject/SingleProject"));
+const Contact = lazy(() => import("./Pages/Contact/Contact"));
 
 const App = () => {
   const location = useLocation();
@@ -52,6 +53,7 @@ const App = () => {
         <Suspense fallback={<Loader />}>
           <Routes location={location} key={location.pathname}>
             <Route element={<Layout />}>
+              <Route path="/contact" element={<Contact />} />
               <Route path="/project" element={<Projects />} />
               <Route path="/project/:id" element={<SingleProject />} />
               <Route path="/" element={<LandingPage />} />

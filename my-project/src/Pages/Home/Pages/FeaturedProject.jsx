@@ -31,7 +31,7 @@ const Container = ({ item, index }) => {
     navigate(`/project/${item._id}`);
   };
   return (
-    <div className="grid pb-[1rem] md:pb-[9rem] gap-4 grid-cols-1 md:grid-cols-2 w-full">
+    <div className="grid relative pb-[1rem] md:pb-[9rem] gap-4 grid-cols-1 md:grid-cols-2 w-full">
       <div className="">
         <div onClick={handleNavigate} className="group w-[80%] md:w-full">
           <div className="relative">

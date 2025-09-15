@@ -11,7 +11,7 @@ const navVariants = {
 const menuItems = [
   { to: "/", label: "HOME", index: "01" },
   { to: "/project", label: "PROJECTS", index: "02" },
-  // { to: "/contact", label: "CONTACT", index: "03" },
+  { to: "/contact", label: "CONTACT", index: "03" },
 ];
 
 const Navbar = ({ isMenu, setIsMenu }) => {
